@@ -15,6 +15,9 @@ def save_sensor_data(sensor_data, current_date): ## Sensordaten in SQLite-Datenb
     conn = sqlite3.connect('sensordaten.db') ## Verbindung zur SQLite-Datenbank herstellen
     cursor = conn.cursor()
 
+    ## Datetime-Objekte in SQLite-Datenbank speichern
+    sqlite3.register_adapter(datetime, lambda dt: dt.strftime("%Y-%m-%d %H:%M:%S"))
+
     cursor.execute('''
         INSERT INTO sensordaten (komplett, startzeichen, sensortyp, sensornummer, vorzeichen, wert, endzeichen, datum, datum_als_zahl)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
