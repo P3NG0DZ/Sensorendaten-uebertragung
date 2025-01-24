@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+import sqlite3 ## Wird verwendet um die Sensordaten in die SQLite-Datenbank zu speichern
 
 def parse_sensor_data(data): ## Sensordaten parsen
     start = data[0] ## Startzeichen
@@ -9,6 +10,18 @@ def parse_sensor_data(data): ## Sensordaten parsen
     value = data[5:-1] ## Wert
     end = data[-1] ## Endzeichen
     return start, sensor_type, sensor_number, sign, value, end ## Rückgabe der Sensordaten
+
+def save_sensor_data(sensor_data, current_date): ## Sensordaten in SQLite-Datenbank speichern
+    conn = sqlite3.connect('sensordaten.db') ## Verbindung zur SQLite-Datenbank herstellen
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO sensordaten (komplett, startzeichen, sensortyp, sensornummer, vorzeichen, wert, endzeichen, datum, datum_als_zahl)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (sensor_data, start, sensor_type, sensor_number, sign, value, end, current_date, current_date.strftime("%Y%m%d"))) ## Sensordaten in SQLite-Datenbank speichern
+
+    conn.commit() ## Änderungen speichern
+    conn.close() ## Verbindung schließen
 
 if __name__ == "__main__": 
     if len(sys.argv) != 2: ## Fehlermeldung, wenn Sensordaten fehlen bzw kein Übergabeparameter vorhanden ist
@@ -29,3 +42,8 @@ if __name__ == "__main__":
     current_date = datetime.now()
     print(current_date) ## Aktuelles Datum
     print(current_date.strftime("%Y%m%d")) ## Datum in Format JJJJMMTT
+
+    print("Speichern der Sensordaten in die SQLite-Datenbank...")
+    save_sensor_data(sensor_data, current_date) ## Sensordaten in SQLite-Datenbank speichern
+
+    print("Sensordaten wurden erfolgreich in die SQLite-Datenbank gespeichert.") ## Erfolgsmeldung

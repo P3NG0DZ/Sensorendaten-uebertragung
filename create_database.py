@@ -8,6 +8,7 @@ def create_database():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS sensordaten (
             id INTEGER PRIMARY KEY,
+            komplett TEXT,
             startzeichen TEXT,
             sensortyp TEXT,
             sensornummer TEXT,
