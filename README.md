@@ -1,23 +1,22 @@
 ### Datenübertragung
 
-Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. Auch wird sich mit den Auswerten eines Strings bschäftigt
-
+Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. Auch wird sich mit dem Auswerten eines Strings beschäftigt.
 
 ## Der Plan (Protokoll zur Sensordatenübertragung)
 
 :T00+000.1;      wobei
 
-: = Startzeichen
-T = Art des Sensores
-00 = Nummern des Sensors
-+ = Vorzeichen
-000.0 = Stellenanzahl 
-; = Abschlusszeichen
+: = Startzeichen  
+T = Art des Sensors  
+00 = Nummer des Sensors  
++ = Vorzeichen  
+000.0 = Stellenanzahl  
+; = Abschlusszeichen  
 
-Das Programm soll mithilfe eines Übergabeparameters gestartet werden
-Beispiel: python main.py ":T01+015.1;"
+Das Programm soll mithilfe eines Übergabeparameters gestartet werden.  
+Beispiel: `python main.py ":T01+015.1;"`
 
-Der Code soll dann zuerst folgendes Ausgeben:
+Der Code soll dann zuerst folgendes ausgeben:
 1. Hallo:_ :T01+015.1;
 2. :
 3. T
@@ -25,5 +24,23 @@ Der Code soll dann zuerst folgendes Ausgeben:
 5. +
 6. 015.1
 7. ;
-8. date
-9. date als Zahl
+8. Datum
+9. Datum als Zahl
+
+## Erklärung des Python Codes:
+
+### parse_sensor_data(data)
+Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in seine Bestandteile:
+- `start`: Startzeichen
+- `sensor_type`: Art des Sensors
+- `sensor_number`: Nummer des Sensors
+- `sign`: Vorzeichen
+- `value`: Wert des Sensors
+- `end`: Abschlusszeichen
+
+### Hauptprogramm
+Das Hauptprogramm führt folgende Schritte aus:
+1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde.
+2. Gibt den übergebenen Sensordaten-String aus.
+3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
+4. Gibt das aktuelle Datum und das Datum im Format JJJJMMTT aus.
