@@ -17,4 +17,13 @@ T = Art des Sensores
 Das Programm soll mithilfe eines Übergabeparameters gestartet werden
 Beispiel: python main.py ":T01+015.1;"
 
-
+Der Code soll dann zuerst folgendes Ausgeben:
+1. Hallo:_ :T01+015.1;
+2. :
+3. T
+4. 01
+5. +
+6. 015.1
+7. ;
+8. date
+9. date als Zahl
