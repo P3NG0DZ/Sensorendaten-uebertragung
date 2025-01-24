@@ -2,6 +2,8 @@
 
 Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. Auch wird sich mit dem Auswerten eines Strings beschäftigt.
 
+Es handelt sich hierbei um ein Schulprojekt. Nichts spannendes. Die Repo  ist wegen Klassenkameraden aktiv, damit die sich hilfe holen können falls ich nicht da bin oder nicht weiterkommen! Wer gerne meinen Weg verfolgen will oder so ein ähnliches Projekt hat, fühlt euch frei, diesen Code etwas zu verändern oder zu nutzen :)
+
 ## Der Plan (Protokoll zur Sensordatenübertragung)
 
 :T00+000.1;      wobei
