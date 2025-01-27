@@ -6,17 +6,11 @@ def create_database():
 
     # Tabelle erstellen
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS sensordaten (
+        CREATE TABLE IF NOT EXISTS messung (
             id INTEGER PRIMARY KEY,
-            komplett TEXT,
-            startzeichen TEXT,
-            sensortyp TEXT,
-            sensornummer TEXT,
-            vorzeichen TEXT,
-            wert REAL,
-            endzeichen TEXT,
             datum TEXT,
-            datum_als_zahl TEXT
+            sensorName TEXT,
+            Wert TEXT
         )
     ''')
 

@@ -2,7 +2,7 @@
 
 Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. Auch wird sich mit dem Auswerten eines Strings beschäftigt.
 
-Es handelt sich hierbei um ein Schulprojekt. Nichts spannendes. Die Repo  ist wegen Klassenkameraden aktiv, damit die sich hilfe holen können falls ich nicht da bin oder nicht weiterkommen! Wer gerne meinen Weg verfolgen will oder so ein ähnliches Projekt hat, fühlt euch frei, diesen Code etwas zu verändern oder zu nutzen :)
+Es handelt sich hierbei um ein Schulprojekt. Nichts spannendes. Wer gerne meinen Weg verfolgen will oder so ein ähnliches Projekt hat, fühlt euch frei, diesen Code etwas zu verändern oder zu nutzen :)
 
 Diese Werte werden dann in einer Datenbank angelegt (Bis jetzt lokal).
 Ziel ist es aber dann mit einem Datenbankserver.
@@ -26,11 +26,13 @@ Der Code soll dann zuerst folgendes ausgeben:
 2. :
 3. T
 4. 01
-5. +
+5. "+"
 6. 015.1
 7. ;
 8. Datum
-9. Datum als Zahl
+9. Datum als long
+
+Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
 
 ## Erklärung des Python Codes:
 
@@ -48,4 +50,6 @@ Das Hauptprogramm führt folgende Schritte aus:
 1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde.
 2. Gibt den übergebenen Sensordaten-String aus.
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
-4. Gibt das aktuelle Datum und das Datum im Format JJJJMMTT aus.
+4. Gibt das aktuelle Datum und das Datum als Long-Wert und umgewandeltes Datum zurück.
+
+
