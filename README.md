@@ -14,7 +14,7 @@ Ziel ist es aber dann mit einem Datenbankserver.
 : = Startzeichen  
 T = Art des Sensors  
 00 = Nummer des Sensors  
-+ = Vorzeichen  
+"+" = Vorzeichen  
 000.0 = Stellenanzahl  
 ; = Abschlusszeichen  
 
