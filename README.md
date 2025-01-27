@@ -51,5 +51,6 @@ Das Hauptprogramm führt folgende Schritte aus:
 2. Gibt den übergebenen Sensordaten-String aus.
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
 4. Gibt das aktuelle Datum und das Datum als Long-Wert und umgewandeltes Datum zurück.
+5. Speichert die Sensordaten in einer lokalen Datenbank. (Bis jetzt, später mit Datenbankserver)
 
 
