@@ -88,7 +88,7 @@ if __name__ == "__main__":
         try:
             save_to_mariadb(datum, sensor_entry) ## Sensordaten in MySQL-Datenbank speichern
         except Exception as e:
-            print(f"Fehler beim Speichern in MariaDB: {e}")
+            print(f"Fehler beim Speichern in MariaDB")
             print("Überspringe das Speichern in MariaDB und fahre fort.")
 
 
