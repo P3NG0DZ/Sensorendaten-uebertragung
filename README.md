@@ -49,6 +49,14 @@ Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in
 - `sign`: Vorzeichen des Wertes
 - `value`: Wert des Sensors
 
+### long_zu_zahl(datum_als_long)
+Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
+
+### save_to_mariadb(current_date, sensor_data)
+Diese Funktion speichert die Sensordaten in einer MySQL-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
+
+### save_sensor_data(current_date, sensor_data)
+Diese Funktion speichert die Sensordaten in einer lokalen SQLite-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
 
 ### Hauptprogramm
 Das Hauptprogramm führt folgende Schritte aus:
