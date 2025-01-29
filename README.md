@@ -34,7 +34,7 @@ Der Code soll dann zuerst folgendes ausgeben:
 Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
 
 Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutz wurde hier eine Raspberry Pi 3b+.
-Bis jetzt wird sie auch noch lokal gepseichert.
+Bis jetzt wird sie auch noch lokal gespeichert.
 
 Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbeiten kann.
 
@@ -45,12 +45,10 @@ Der Eingabestring erhält mehrere Sensordaten, die nacheinandern verarbeitet wer
 
 ### parse_sensor_data(data)
 Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in seine Bestandteile:
-- `start`: Startzeichen
-- `sensor_type`: Art des Sensors
-- `sensor_number`: Nummer des Sensors
-- `sign`: Vorzeichen
+- `sensor_id`: Sensorbezeichnung (z.B. T01)
+- `sign`: Vorzeichen des Wertes
 - `value`: Wert des Sensors
-- `end`: Abschlusszeichen
+
 
 ### Hauptprogramm
 Das Hauptprogramm führt folgende Schritte aus:
@@ -58,6 +56,6 @@ Das Hauptprogramm führt folgende Schritte aus:
 2. Gibt den übergebenen Sensordaten-String aus.
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
 4. Gibt das aktuelle Datum und das Datum als Long-Wert und umgewandeltes Datum zurück.
-5. Speichert die Sensordaten in einer lokalen Datenbank. (Bis jetzt, später mit Datenbankserver)
+5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server.
 
 
