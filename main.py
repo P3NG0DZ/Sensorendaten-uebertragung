@@ -11,21 +11,21 @@ def long_zu_zahl(datum_als_long): ## long-Wert in Zahl umwandeln
     return int(str(datum_als_long)[:8]) ## long-Wert in Zahl umwandeln
 
 def parse_sensor_data(data):
-    # Regex mit Vorzeichen und Sensorbezeichnung "Txx"
-    pattern = r"(T\d{2})([+-])(\d+\.\d+)"
+    # Regex, um T (Sensorart), Nummer (zwei Ziffern), Vorzeichen und Wert zu extrahieren
+    pattern = r"(T)(\d{2})([+-])(\d+\.\d+)"
     matches = re.findall(pattern, data)
 
     sensor_values = []
-    for sensor_id, sign, value in matches:
+    for sensor_art, sensor_nummer, sign, value in matches:
         sensor_entry = {
-            "sensor_id": sensor_id,
+            "sensor_art": sensor_art,
+            "sensor_nummer": sensor_nummer,
             "sign": sign,
             "value": value
         }
         sensor_values.append(sensor_entry)
 
     return sensor_values
-
 
 
 def save_to_mariadb(current_date, sensor_data): ## Sensordaten in MySQL-Datenbank speichern
@@ -40,7 +40,7 @@ def save_to_mariadb(current_date, sensor_data): ## Sensordaten in MySQL-Datenban
         cursor = conn.cursor()
 
         ## Daten in die Tabelle messung einfügen
-        sensor_name = sensor_data["sensor_id"] ## Sensorname zusammensetzen
+        sensor_name = f"{sensor_data['sensor_art']}{sensor_data['sensor_nummer']}" ## Sensorname zusammensetzen
         cursor.execute('''
             INSERT INTO messung (datum, sensorName, Wert)
             VALUES (%s, %s, %s)
@@ -63,7 +63,7 @@ def save_sensor_data(current_date, sensor_data): ## Sensordaten in SQLite-Datenb
     sqlite3.register_adapter(datetime, lambda dt: dt.strftime("%Y-%m-%d %H:%M:%S"))
 
     ## Daten in die Tabelle messung einfügen
-    sensor_name = sensor_data["sensor_id"] ## Sensorname zusammensetzen
+    sensor_name = f"{sensor_data['sensor_art']}{sensor_data['sensor_nummer']}" ## Sensorname zusammensetzen
     cursor.execute('''
         INSERT INTO messung (datum, sensorName, Wert)
         VALUES (?, ?, ?)
@@ -83,10 +83,13 @@ if __name__ == "__main__":
     sensor_data = parse_sensor_data(sensor_data) ## Sensordaten parsen
     
     for sensor_entry in sensor_data:
-        print(f"Sensor {sensor_entry['sensor_id']}: Vorzeichen = {sensor_entry['sign']}, Wert = {sensor_entry['value']}")
-
+        print(f"Sensorart = {sensor_entry['sensor_art']}, Sensor Nummer = {sensor_entry['sensor_nummer']}, Vorzeichen = {sensor_entry['sign']}, Wert = {sensor_entry['value']}")
         save_sensor_data(datum, sensor_entry) ## Sensordaten in SQLite-Datenbank speichern
-        save_to_mariadb(datum, sensor_entry) ## Sensordaten in MySQL-Datenbank speichern
+        try:
+            save_to_mariadb(datum, sensor_entry) ## Sensordaten in MySQL-Datenbank speichern
+        except Exception as e:
+            print(f"Fehler beim Speichern in MariaDB: {e}")
+            print("Überspringe das Speichern in MariaDB und fahre fort.")
 
 
 
@@ -95,5 +98,5 @@ if __name__ == "__main__":
 
     print("Datum als Zahl:", long_zu_zahl(datum_als_long)) ## long-Wert in Zahl umwandeln
 
-    print("Sensordaten wurden erfolgreich in die lokale SQLite-Datenbank gespeichert sowie auch beim MariaDB Server.") ## Erfolgsmeldung
+    print("Sensordaten wurden erfolgreich gespeichert") ## Erfolgsmeldung
 

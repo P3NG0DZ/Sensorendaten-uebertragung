@@ -33,13 +33,13 @@ Der Code soll dann zuerst folgendes ausgeben:
 
 Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
 
-Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutz wurde hier eine Raspberry Pi 3b+.
+Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutzt wird hier eine Raspberry Pi 3b+.
 Bis jetzt wird sie auch noch lokal gespeichert.
 
 Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbeiten kann.
 
 Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
-Der Eingabestring erhält mehrere Sensordaten, die nacheinandern verarbeitet werden sollen.
+Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
 
 ## Erklärung des Python Codes:
 
