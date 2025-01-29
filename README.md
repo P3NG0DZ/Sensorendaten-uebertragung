@@ -4,8 +4,7 @@ Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. A
 
 Es handelt sich hierbei um ein Schulprojekt. Nichts spannendes. Wer gerne meinen Weg verfolgen will oder so ein ähnliches Projekt hat, fühlt euch frei, diesen Code etwas zu verändern oder zu nutzen :)
 
-Diese Werte werden dann in einer Datenbank angelegt (Bis jetzt lokal).
-Ziel ist es aber dann mit einem Datenbankserver.
+Diese Werte werden dann in einer Datenbank angelegt (Lokal so als auch auf einem Server).
 
 ## Der Plan (Protokoll zur Sensordatenübertragung)
 
@@ -33,6 +32,14 @@ Der Code soll dann zuerst folgendes ausgeben:
 9. Datum als long
 
 Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
+
+Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutz wurde hier eine Raspberry Pi 3b+.
+Bis jetzt wird sie auch noch lokal gepseichert.
+
+Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbeiten kann.
+
+Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
+Der Eingabestring erhält mehrere Sensordaten, die nacheinandern verarbeitet werden sollen.
 
 ## Erklärung des Python Codes:
 
