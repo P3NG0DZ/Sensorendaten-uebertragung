@@ -44,10 +44,9 @@ def save_to_mariadb(current_date, sensor_data): ## Sensordaten in MySQL-Datenban
         cursor.execute('''
             INSERT INTO messung (datum, sensorName, Wert)
             VALUES (%s, %s, %s)
-        ''', (current_date, sensor_name, sensor_data["value"])) ## Daten in die Tabelle messung einfügen
+        ''', (current_date.strftime('%Y-%m-%d %H:%M:%S'), sensor_name, sensor_data["value"])) ## Daten in die Tabelle messung einfügen
 
         conn.commit() ## Änderungen speichern
-       # print("Sensordaten wurden erfolgreich in die MariaDB Datenbank gepseichert") ## Erfolgsmeldung
     except mysql.connector.Error as err:
         print(f"Fehler: {err}")
     finally:
@@ -60,14 +59,14 @@ def save_sensor_data(current_date, sensor_data): ## Sensordaten in SQLite-Datenb
     cursor = conn.cursor()
 
     ## Datetime-Objekte in SQLite-Datenbank speichern
-    sqlite3.register_adapter(datetime, lambda dt: dt.strftime("%Y-%m-%d %H:%M:%S"))
+    sqlite3.register_adapter(datetime, lambda dt: dt.timestamp())
 
     ## Daten in die Tabelle messung einfügen
     sensor_name = f"{sensor_data['sensor_art']}{sensor_data['sensor_nummer']}" ## Sensorname zusammensetzen
     cursor.execute('''
         INSERT INTO messung (datum, sensorName, Wert)
         VALUES (?, ?, ?)
-    ''', (current_date, sensor_name, sensor_data["value"])) ## Daten in die Tabelle messung einfügen
+    ''', (current_date.strftime('%Y-%m-%d %H:%M:%S'), sensor_name, sensor_data["value"])) ## Daten in die Tabelle messung einfügen
 
     conn.commit() ## Änderungen speichern
     conn.close() ## Verbindung schließen

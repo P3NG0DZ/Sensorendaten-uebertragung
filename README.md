@@ -34,7 +34,8 @@ Der Code soll dann zuerst folgendes ausgeben:
 Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
 
 Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutzt wird hier eine Raspberry Pi 3b+.
-Bis jetzt wird sie auch noch lokal gespeichert.
+Bis jetzt wird sie auch noch lokal gespeichert. Eine Anleitung wie man ein MariaDB-Server mit phpMyAdmin aufsetzt, findet ihr bei diesem Markdown:
+Installation phpmyadmin mit MariaDB Linux
 
 Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbeiten kann.
 
@@ -45,15 +46,16 @@ Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werd
 
 ### parse_sensor_data(data)
 Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in seine Bestandteile:
-- `sensor_id`: Sensorbezeichnung (z.B. T01)
-- `sign`: Vorzeichen des Wertes
-- `value`: Wert des Sensors
+- `sensor_art`: Art des Sensors (z.B. T)
+- `sensor_nummer`: Nummer des Sensors (z.B. 01)
+- `sign`: Vorzeichen des Wertes (z.B. +)
+- `value`: Wert des Sensors (z.B. 015.1)
 
 ### long_zu_zahl(datum_als_long)
 Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
 
 ### save_to_mariadb(current_date, sensor_data)
-Diese Funktion speichert die Sensordaten in einer MySQL-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
+Diese Funktion speichert die Sensordaten in einer MariaDB Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
 
 ### save_sensor_data(current_date, sensor_data)
 Diese Funktion speichert die Sensordaten in einer lokalen SQLite-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
@@ -63,7 +65,7 @@ Das Hauptprogramm führt folgende Schritte aus:
 1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde.
 2. Gibt den übergebenen Sensordaten-String aus.
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
-4. Gibt das aktuelle Datum und das Datum als Long-Wert und umgewandeltes Datum zurück.
+4. Gibt das aktuelle Datum, das Datum als Long-Wert und das umgewandelte Datum zurück.
 5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server.
 
 
