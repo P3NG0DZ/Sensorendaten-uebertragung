@@ -75,8 +75,9 @@ Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAd
 
 ### Voraussetzungen
 
-- Ein Linux-System mit Root-Zugriff
+- Ein Linux-System mit Root-Zugriff (Anleitung wurde mit ein Debian-System getestet)
 - Ein Terminal
+
 
 ### Schritt 1: MariaDB installieren
 
@@ -100,19 +101,33 @@ Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAd
     ```
     Folge den Anweisungen auf dem Bildschirm.
 
-### Schritt 2: phpMyAdmin installieren
+### Schritt 2: phpMyAdmin installieren und Admin-Benutzer erstellen
 
 1. Installiere phpMyAdmin:
     ```bash
     sudo apt install phpmyadmin
     ```
 2. Wähle während der Installation den Webserver aus (z.B. Apache2) und konfiguriere die Datenbank für phpMyAdmin.
+3. Melde dich bei MariaDB an:
+    ```bash
+    sudo mysql -u root -p
+    ```
+4. Erstelle einen neuen Admin-Benutzer und gewähre ihm alle Rechte:
+    ```sql
+    CREATE USER 'admin'@'localhost' IDENTIFIED BY 'adminpasswort';
+    GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    ```
+5. Beende die MariaDB-Sitzung:
+    ```sql
+    EXIT;
+    ```
 
 ### Schritt 3: MariaDB konfigurieren
 
 1. Melde dich bei MariaDB an:
     ```bash
-    sudo mysql -u root -p
+    sudo mysql -u admin -p
     ```
 2. Erstelle eine neue Datenbank:
     ```sql
@@ -154,7 +169,7 @@ Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAd
 ### Schritt 6: phpMyAdmin konfigurieren
 
 1. Öffne deinen Webbrowser und navigiere zu `http://<deine-ip-adresse>/phpmyadmin`.
-2. Melde dich mit dem neu erstellten Benutzer `benutzer` und dem Passwort `passwort` an.
+2. Melde dich mit dem neu erstellten Benutzer `admin` und dem Passwort `adminpasswort` an.
 3. Wähle die Datenbank `WerteDB` aus und erstelle die Tabelle `messung`:
     ```sql
     CREATE TABLE messung (
@@ -168,7 +183,7 @@ Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAd
 ### Schritt 7: Datenbank in phpMyAdmin erstellen
 
 1. Melde dich bei phpMyAdmin an, indem du `http://<deine-ip-adresse>/phpmyadmin` in deinem Webbrowser aufrufst.
-2. Gib den Benutzernamen `root` und das Passwort ein, das du während der MariaDB-Installation festgelegt hast.
+2. Gib den Benutzernamen `admin` und das Passwort `adminpasswort` ein.
 3. Klicke auf "Datenbanken" im oberen Menü.
 4. Gib unter "Datenbank erstellen" den Namen `WerteDB` ein und klicke auf "Anlegen".
 5. Wähle die neu erstellte Datenbank `WerteDB` aus der Liste auf der linken Seite aus.
@@ -185,6 +200,6 @@ Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAd
 
 ### Fertig!
 
-Du hast nun MariaDB und phpMyAdmin installiert und eine Datenbank eingerichtet. Du kannst nun Sensordaten in die Datenbank speichern und verwalten und von anderen Geräten aus darauf zugreifen.
+Du hast nun MariaDB und phpMyAdmin installiert, einen Admin-Benutzer erstellt und eine Datenbank eingerichtet. Du kannst nun Sensordaten in die Datenbank speichern und verwalten und von anderen Geräten aus darauf zugreifen.
 
 
