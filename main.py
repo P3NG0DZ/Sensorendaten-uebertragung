@@ -1,4 +1,5 @@
 import sys
+import csv
 from datetime import datetime
 import sqlite3 ## Wird verwendet um die Sensordaten in die SQLite-Datenbank zu speichern
 import mysql.connector ## Wird verwendet um die Sensordaten in die MySQL-Datenbank zu speichern
@@ -26,6 +27,7 @@ def parse_sensor_data(data):
         sensor_values.append(sensor_entry)
 
     return sensor_values
+
 
 
 def save_to_mariadb(current_date, sensor_data): ## Sensordaten in MySQL-Datenbank speichern
@@ -71,6 +73,22 @@ def save_sensor_data(current_date, sensor_data): ## Sensordaten in SQLite-Datenb
     conn.commit() ## Änderungen speichern
     conn.close() ## Verbindung schließen
 
+def write_to_csv(data): ## Sensordaten in CSV-Datei speichern. Jeder Datensatz bekommt eine eigene Zeile
+    file_exists = False
+    try:
+        with open('messdaten.csv', mode='r', newline='') as file: ## Überprüfen ob die Datei bereits existiert
+            file_exists = True
+    except FileNotFoundError:
+        pass
+
+    with open('messdaten.csv', mode='a', newline='') as file: ## Sensordaten in CSV-Datei speichern
+        writer = csv.writer(file) ## CSV-Writer erstellen
+        if not file_exists:
+            writer.writerow(["Datum", "SensorName", "Wert"])
+        for sensor_entry in data:
+            sensor_name = f"{sensor_entry['sensor_art']}{sensor_entry['sensor_nummer']}"
+            writer.writerow([datum.strftime('%Y-%m-%d %H:%M:%S'), sensor_name, sensor_entry["value"]])
+
 if __name__ == "__main__": 
     if len(sys.argv) != 2: ## Fehlermeldung, wenn Sensordaten fehlen bzw kein Übergabeparameter vorhanden ist
         print("Bitte starte das Programm folgendermaßen: python main.py <sensor_data>")
@@ -89,6 +107,8 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Fehler beim Speichern in MariaDB")
             print("Überspringe das Speichern in MariaDB und fahre fort.")
+
+    write_to_csv([sensor_entry]) ## Sensordaten in CSV-Datei speichern
 
 
 

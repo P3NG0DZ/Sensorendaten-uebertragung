@@ -9,7 +9,7 @@ from datetime import datetime
 import glob
 import os
 #sys.path.append(os.path.join(os.path.dirname(__file__), '..'))  ## Pfad zum Verzeichnis hinzufügen
-from main import parse_sensor_data, save_to_mariadb, save_sensor_data, long_zu_zahl
+from main import parse_sensor_data, save_to_mariadb, save_sensor_data, long_zu_zahl, write_to_csv ## Funktionen aus main.py importieren
 
 
 # Suche nach angeschlossenen ttyUSB Geräten
@@ -39,6 +39,8 @@ while True:
             save_sensor_data(datum, sensor_entry)
         for sensor_entry in data:
             print(f"Sensorart = {sensor_entry['sensor_art']}, Sensor Nummer = {sensor_entry['sensor_nummer']}, Vorzeichen = {sensor_entry['sign']}, Wert = {sensor_entry['value']}")
+
+        write_to_csv([sensor_entry])
         print("Datum:", datum)
         print("Datum als long:", datum_als_long)
         print("Datum als Zahl:", long_zu_zahl(datum_als_long))
