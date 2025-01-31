@@ -42,7 +42,7 @@ Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbei
 Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
 Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
 
-## Erklärung des Python Codes:
+## Erklärung des Python Codes (main.py):
 
 ### parse_sensor_data(data)
 Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in seine Bestandteile:
@@ -67,6 +67,40 @@ Das Hauptprogramm führt folgende Schritte aus:
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
 4. Gibt das aktuelle Datum, das Datum als Long-Wert und das umgewandelte Datum zurück.
 5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server.
+
+
+## Erklärung des Python Codes (server.py):
+
+### parse_data(line)
+Diese Funktion analysiert die empfangenen Daten und zerlegt sie in ihre Bestandteile, um sie weiterzuverarbeiten.
+
+### save_to_mariadb(data)
+Diese Funktion speichert die empfangenen Sensordaten in einer MariaDB-Datenbank.
+
+### save_sensor_data(data)
+Diese Funktion speichert die empfangenen Sensordaten in einer lokalen SQLite-Datenbank.
+
+### long_zu_zahl(datum_als_long)
+Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
+
+### Hauptprogramm
+Das Hauptprogramm führt folgende Schritte aus:
+1. Sucht nach angeschlossenen ttyUSB Geräten.
+2. Öffnet die serielle Schnittstelle des ersten gefundenen ttyUSB Geräts.
+3. Liest kontinuierlich Daten von der seriellen Schnittstelle.
+4. Analysiert die empfangenen Daten und speichert sie in der Datenbank.
+5. Gibt die empfangenen Daten und das aktuelle Datum aus.
+
+## Erklärung des Python Codes (client.py):
+
+### Hauptprogramm
+Das Hauptprogramm führt folgende Schritte aus:
+1. Sucht nach angeschlossenen ttyUSB Geräten.
+2. Öffnet die serielle Schnittstelle des ersten gefundenen ttyUSB Geräts.
+3. Fordert den Benutzer auf, Sensordaten einzugeben.
+4. Überprüft, ob die eingegebenen Sensordaten dem erwarteten Muster entsprechen.
+5. Sendet die Sensordaten über die serielle Schnittstelle an den Server.
+6. Wartet eine Sekunde und wiederholt den Vorgang.
 
 
 ## Installation von MariaDB und phpMyAdmin unter Linux
