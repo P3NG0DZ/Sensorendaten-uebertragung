@@ -111,7 +111,7 @@ Das Hauptprogramm führt folgende Schritte aus:
 Er hat zuerst ein limit von 10 Sensordaten. Wird aber möglich erweitert.
 
 
-## Erklärung des bash scriptes (transfer.sh):
+
 ## Erklärung des bash scriptes (transfer.sh):
 
 Das `transfer.sh` Skript wird verwendet, um Sensordaten von einer lokalen CSV-Datei `messdaten.csv` auf einen Server zu übertragen. Es führt folgende Schritte aus:
