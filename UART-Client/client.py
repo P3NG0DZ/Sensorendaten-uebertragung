@@ -17,16 +17,15 @@ ser = serial.Serial(usb_devices[0], 9600)  # Serielle Schnittstelle öffnen
 
 while True:
    print("Bitte geben die Sensordaten ein:")
-   sensor_data = input()
+   sensor_data = input().strip()  # Eingabe der Sensordaten
 
    # Sicher gehen dass das Muster richtig ist
-   pattern = r"(T)(\d{2})([+-])(\d+\.\d+)"
-   if not re.match(pattern, sensor_data):
-       print("Ungültiges Sensordatenformat. Bitte erneut eingeben.")
-       continue
+# pattern = r"(T)(\d{2})([+-])(\d+\.\d+)"
+# if not re.match(pattern, sensor_data):
+#     #print("Ungültiges Sensordatenformat. Bitte erneut eingeben.")
+#     continue
 
-ser.write(sensor_data.encode())  # Sensordaten an den Server senden
-print("Sensordaten gesendet:", sensor_data)
-time.sleep(1)  # Wartezeit von 1 Sekunde
+   ser.write((sensor_data + '\n').encode())  # Newline am Ende hinzufügen   print("Sensordaten gesendet:", sensor_data)
+   time.sleep(1)  # Wartezeit von 1 Sekunde
    
 
