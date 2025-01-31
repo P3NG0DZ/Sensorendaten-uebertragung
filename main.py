@@ -108,7 +108,7 @@ if __name__ == "__main__":
             print(f"Fehler beim Speichern in MariaDB")
             print("Überspringe das Speichern in MariaDB und fahre fort.")
 
-    write_to_csv([sensor_entry]) ## Sensordaten in CSV-Datei speichern
+        write_to_csv([sensor_entry]) ## Sensordaten in CSV-Datei speichern
 
 
 

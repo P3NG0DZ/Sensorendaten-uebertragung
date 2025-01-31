@@ -42,6 +42,8 @@ Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbei
 Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
 Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
 
+
+
 ## Erklärung des Python Codes (main.py):
 
 ### parse_sensor_data(data)
@@ -62,16 +64,18 @@ Diese Funktion speichert die Sensordaten in einer lokalen SQLite-Datenbank. Sie 
 
 ### Hauptprogramm
 Das Hauptprogramm führt folgende Schritte aus:
-1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde.
+1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde. 
 2. Gibt den übergebenen Sensordaten-String aus.
 3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
 4. Gibt das aktuelle Datum, das Datum als Long-Wert und das umgewandelte Datum zurück.
-5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server.
+5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server. Außerdem wird eine CSV-Datei `messdaten.csv` erstellt oder die Daten in eine bestehende CSV-Datei mit dem gleichen Namen geschrieben.
 
 
 ## Erklärung des Python Codes (server.py):
 
-### parse_data(line)
+Die Funktionen wurden aus der `main.py` importiert.
+
+### parse_sensor_data(line)
 Diese Funktion analysiert die empfangenen Daten und zerlegt sie in ihre Bestandteile, um sie weiterzuverarbeiten.
 
 ### save_to_mariadb(data)
@@ -91,6 +95,8 @@ Das Hauptprogramm führt folgende Schritte aus:
 4. Analysiert die empfangenen Daten und speichert sie in der Datenbank.
 5. Gibt die empfangenen Daten und das aktuelle Datum aus.
 
+Die Antworten findet man unter Erklärung.
+
 ## Erklärung des Python Codes (client.py):
 
 ### Hauptprogramm
@@ -101,6 +107,21 @@ Das Hauptprogramm führt folgende Schritte aus:
 4. Überprüft, ob die eingegebenen Sensordaten dem erwarteten Muster entsprechen.
 5. Sendet die Sensordaten über die serielle Schnittstelle an den Server.
 6. Wartet eine Sekunde und wiederholt den Vorgang.
+
+Er hat zuerst ein limit von 10 Sensordaten. Wird aber möglich erweitert.
+
+
+## Erklärung des bash scriptes (transfer.sh):
+## Erklärung des bash scriptes (transfer.sh):
+
+Das `transfer.sh` Skript wird verwendet, um Sensordaten von einer lokalen CSV-Datei `messdaten.csv` auf einen Server zu übertragen. Es führt folgende Schritte aus:
+
+1. Überprüft, ob die erforderlichen Parameter übergeben wurden.
+2. Liest die Sensordaten von der csv-Datei.
+3. Verarbeitet die Sensordaten und formatiert sie für die Übertragung.
+4. Überträgt die formatierten Sensordaten an den Server.
+5. Bestätigt den erfolgreichen Empfang der Daten auf dem Server.
+6. Protokolliert den Übertragungsvorgang und eventuelle Fehler.
 
 
 ## Installation von MariaDB und phpMyAdmin unter Linux

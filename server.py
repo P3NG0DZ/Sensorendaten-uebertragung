@@ -40,7 +40,7 @@ while True:
         for sensor_entry in data:
             print(f"Sensorart = {sensor_entry['sensor_art']}, Sensor Nummer = {sensor_entry['sensor_nummer']}, Vorzeichen = {sensor_entry['sign']}, Wert = {sensor_entry['value']}")
 
-        write_to_csv([sensor_entry])
+            write_to_csv([sensor_entry])
         print("Datum:", datum)
         print("Datum als long:", datum_als_long)
         print("Datum als Zahl:", long_zu_zahl(datum_als_long))
