@@ -62,6 +62,9 @@ Diese Funktion speichert die Sensordaten in einer MariaDB Datenbank. Sie stellt 
 ### save_sensor_data(current_date, sensor_data)
 Diese Funktion speichert die Sensordaten in einer lokalen SQLite-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
 
+### write_to_csv(data)
+Diese Funktion schreibt die Sensordaten in eine CSV-Datei `messdaten.csv`. Sie überprüft, ob die Datei bereits existiert, und schreibt die Daten in die Datei oder erstellt eine neue Datei.
+
 ### Hauptprogramm
 Das Hauptprogramm führt folgende Schritte aus:
 1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde. 
@@ -87,6 +90,9 @@ Diese Funktion speichert die empfangenen Sensordaten in einer lokalen SQLite-Dat
 ### long_zu_zahl(datum_als_long)
 Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
 
+### write_to_csv(data)
+Diese Funktion schreibt die empfangenen Sensordaten in eine CSV-Datei `messdaten.csv`.
+
 ### Hauptprogramm
 Das Hauptprogramm führt folgende Schritte aus:
 1. Sucht nach angeschlossenen ttyUSB Geräten.
@@ -95,7 +101,7 @@ Das Hauptprogramm führt folgende Schritte aus:
 4. Analysiert die empfangenen Daten und speichert sie in der Datenbank.
 5. Gibt die empfangenen Daten und das aktuelle Datum aus.
 
-Die Antworten findet man unter Erklärung.
+
 
 ## Erklärung des Python Codes (client.py):
 
