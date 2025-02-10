@@ -12,8 +12,8 @@ def long_zu_zahl(datum_als_long): ## long-Wert in Zahl umwandeln
     return int(str(datum_als_long)[:8]) ## long-Wert in Zahl umwandeln
 
 def parse_sensor_data(data):
-    # Regex, um T (Sensorart), Nummer (zwei Ziffern), Vorzeichen und Wert zu extrahieren
-    pattern = r"(T)(\d{2})([+-])(\d+\.\d+)"
+    # Regex, um Sensorart (ein Buchstabe), Nummer (zwei Ziffern), Vorzeichen und Wert zu extrahieren
+    pattern = r"([A-Z])(\d{2})([+-])(\d+\.\d+)"
     matches = re.findall(pattern, data)
 
     sensor_values = []
@@ -73,16 +73,16 @@ def save_sensor_data(current_date, sensor_data): ## Sensordaten in SQLite-Datenb
     conn.commit() ## Änderungen speichern
     conn.close() ## Verbindung schließen
 
-def write_to_csv(data): ## Sensordaten in CSV-Datei speichern. Jeder Datensatz bekommt eine eigene Zeile
+def write_to_csv(data):  # Sensordaten in CSV-Datei speichern. Jeder Datensatz bekommt eine eigene Zeile
     file_exists = False
     try:
-        with open('messdaten.csv', mode='r', newline='') as file: ## Überprüfen ob die Datei bereits existiert
+        with open('messdaten.csv', mode='r', newline='') as file:  # Überprüfen ob die Datei bereits existiert
             file_exists = True
     except FileNotFoundError:
         pass
 
-    with open('messdaten.csv', mode='a', newline='') as file: ## Sensordaten in CSV-Datei speichern
-        writer = csv.writer(file) ## CSV-Writer erstellen
+    with open('messdaten.csv', mode='a', newline='') as file:  # Sensordaten in CSV-Datei speichern
+        writer = csv.writer(file)  # CSV-Writer erstellen
         if not file_exists:
             writer.writerow(["Datum", "SensorName", "Wert"])
         for sensor_entry in data:
