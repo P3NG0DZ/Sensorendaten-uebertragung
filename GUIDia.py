@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QComboBox, QLabe
 from matplotlib.backends.backend_qt5agg import FigureCanvas
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from matplotlib.dates import DateFormatter  # Import DateFormatter
+from matplotlib.dates import DateFormatter  # DateFormatter importieren
 
 def connect_to_db(sensor_name=None): ## Verbindung zur MySQL-Datenbank
     ip = "10.10.75.98" ## IP-Adresse des MySQL-Servers
@@ -30,7 +30,7 @@ def connect_to_db(sensor_name=None): ## Verbindung zur MySQL-Datenbank
                 FROM messung
                 WHERE sensorName = %s
                 ORDER BY datum
-                LIMIT 1000  -- Limit the number of rows fetched to improve performance
+                LIMIT 1000  -- Begrenze die Anzahl der abgerufenen Zeilen zur Leistungsverbesserung
             ''', (sensor_name,)) ## Daten aus der Tabelle messung abfragen
         else:
             ## Alle SensorNamen abfragen
@@ -54,7 +54,7 @@ class GUIDia(QWidget): ## Klasse für die GUI
         super().__init__()
 
         self.setWindowTitle("Liniendiagramm")
-        self.resize(1400, 900)  # Increase the window size
+        self.resize(1400, 900)  # Fenstergröße erhöhen
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
@@ -88,9 +88,9 @@ class GUIDia(QWidget): ## Klasse für die GUI
 
         df = pd.DataFrame(data, columns=["Datum", "Wert"])
         df["Datum"] = pd.to_datetime(df["Datum"])
-        df["Wert"] = pd.to_numeric(df["Wert"], errors='coerce')  # Convert "Wert" to numeric
+        df["Wert"] = pd.to_numeric(df["Wert"], errors='coerce')  # "Wert" in numerisch umwandeln
 
-        self.plot_widget.clear()  # Clearen des Plots
+        self.plot_widget.clear()  # Plot leeren
         ax = self.plot_widget.add_subplot(111)
         ax.clear()
         ax.plot(df["Datum"], df["Wert"], marker='o')  # Erkennungszeichen für die Datenpunkte
@@ -100,16 +100,16 @@ class GUIDia(QWidget): ## Klasse für die GUI
         ax.grid(True)
         ax.xaxis.set_major_formatter(DateFormatter('%d.%m.%Y %H:%M Uhr'))  # Datumsformat für x-Achse
 
-        # Set x-ticks only at unique data points and avoid overlapping
+        # Setze x-Ticks nur an eindeutigen Datenpunkten und vermeide Überlappungen
         unique_dates = df["Datum"].unique()
-        if len(unique_dates) > 10:  # Adjust the threshold as needed
+        if len(unique_dates) > 10:  # Schwellenwert nach Bedarf anpassen
             ax.set_xticks(unique_dates[::len(unique_dates)//10])
         else:
             ax.set_xticks(unique_dates)
         
-        plt.xticks(rotation=45, fontsize=8, ha='right')  # Rotate date labels for better readability and reduce font size
+        plt.xticks(rotation=45, fontsize=8, ha='right')  # Drehe Datumsbeschriftungen für bessere Lesbarkeit und reduziere Schriftgröße
 
-        # Add a small margin to the y-axis limits
+        # Füge einen kleinen Rand zu den y-Achsen-Grenzen hinzu
         y_min = df["Wert"].min()
         y_max = df["Wert"].max()
         if y_min == y_max:
