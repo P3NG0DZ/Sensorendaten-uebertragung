@@ -132,6 +132,19 @@ Das `transfer.sh` Skript wird verwendet, um Sensordaten von einer lokalen CSV-Da
 6. Protokolliert den Übertragungsvorgang und eventuelle Fehler.
 
 
+## Erklärung des Bash-Skripts (generate_sensor_data.sh):
+
+Das `generate_sensor_data.sh` Skript wird verwendet, um zufällige Sensordaten für Testzwecke zu generieren. Es führt folgende Schritte aus:
+
+1. Definiert eine Funktion `generate_sensor_data`, die zufällige Sensordaten im gewünschten Format erstellt.
+2. Fragt den Benutzer nach der Anzahl der zu generierenden Sensordaten.
+3. Generiert die angegebene Anzahl von Sensordaten und sammelt sie in einer Zeichenkette.
+4. Fügt ein Semikolon am Ende der Sensordatenkette hinzu.
+5. Ruft das Python-Skript `main.py` mit den generierten Sensordaten als Übergabeparameter auf.
+
+Das Skript ist nützlich, um die Funktionalität des Projekts zu testen, ohne echte Sensordaten zu benötigen.
+
+
 
 ## Erklärung des Python Codes (GUIDia.py):
 
