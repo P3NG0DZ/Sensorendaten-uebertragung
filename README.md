@@ -153,6 +153,63 @@ Das Hauptprogramm führt folgende Schritte aus:
 3. Zeigt das GUI-Fenster an.
 4. Startet die Ereignisschleife der Anwendung.
 
+
+
+## Erklärung des Python Codes (temperatur_plot.py):
+
+### read_csv(file_path, sensor_name=None)
+Diese Funktion liest die Daten aus einer CSV-Datei und filtert sie optional nach einem bestimmten Sensor. Die Daten werden nach Datum sortiert und zurückgegeben.
+
+### GUIDia(QWidget)
+Diese Klasse erstellt die grafische Benutzeroberfläche (GUI) für das Programm. Sie enthält folgende Methoden:
+
+- `__init__(csv_file)`: Initialisiert die GUI, setzt das Layout und fügt Widgets wie Labels, ComboBox und CheckBox hinzu.
+- `init_combobox()`: Füllt die ComboBox mit den verfügbaren SensorNamen aus der CSV-Datei.
+- `toggle_sensor_selection()`: Aktiviert oder deaktiviert die ComboBox basierend auf dem Zustand der CheckBox.
+- `plot()`: Erstellt ein Liniendiagramm für den ausgewählten Sensor oder alle Sensoren, indem die Messwerte aus der CSV-Datei abgerufen und mit Matplotlib geplottet werden.
+
+### Hauptprogramm
+Das Hauptprogramm führt folgende Schritte aus:
+1. Erstellt eine Instanz der QApplication.
+2. Erstellt eine Instanz der GUIDia-Klasse mit dem Pfad zur CSV-Datei.
+3. Zeigt das GUI-Fenster an.
+4. Startet die Ereignisschleife der Anwendung.
+
+## Ablauf mit Bildern
+
+### 1. Starten des Programms
+Das Programm wird mit dem Pfad zur CSV-Datei gestartet:
+```bash
+python temperatur_plot.py messdaten.csv
+```
+
+### 2. GUI-Fenster
+Nach dem Starten des Programms wird das GUI-Fenster angezeigt.
+
+![GUI-Fenster](images/gui_fenster.png)
+
+### 3. Auswahl eines Sensors
+Wählen Sie einen Sensor aus der ComboBox aus, um das entsprechende Liniendiagramm anzuzeigen.
+
+![Sensor auswählen](images/sensor_auswaehlen.png)
+
+### 4. Alle Sensoren anzeigen
+Aktivieren Sie die CheckBox "Alle Sensoren anzeigen", um die Messwerte aller Sensoren in einem Liniendiagramm darzustellen.
+
+![Alle Sensoren anzeigen](images/alle_sensoren_anzeigen.png)
+
+### 5. Liniendiagramm
+Das Liniendiagramm zeigt die Messwerte des ausgewählten Sensors oder aller Sensoren an.
+
+![Liniendiagramm](images/liniendiagramm.png)
+
+### 6. Legende und Achsen
+Die Legende zeigt die Namen der Sensoren an, und die Achsen sind entsprechend formatiert.
+
+![Legende und Achsen](images/legende_achsen.png)
+
+
+
 ## Installation von MariaDB und phpMyAdmin unter Linux
 
 Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAdmin unter Linux sowie die Einrichtung einer Datenbank. Diese Anleitung umfasst auch die Konfiguration für den Fernzugriff.
