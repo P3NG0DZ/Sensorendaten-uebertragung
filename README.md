@@ -21,7 +21,7 @@ Das Programm soll mithilfe eines Übergabeparameters gestartet werden.
 Beispiel: `python main.py ":T01+015.1;"`
 
 Der Code soll dann zuerst folgendes ausgeben:
-1. Hallo:_ :T01+015.1;
+1. Hallo: :T01+015.1;
 2. :
 3. T
 4. 01
@@ -41,6 +41,8 @@ Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbei
 
 Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
 Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
+
+Mit dem Skript `GUIDia.py` können die Sensormessungen in einem Liniendiagramm dargestellt werden. Der SensorName wird über eine ComboBox ausgewählt, sodass das entsprechende Diagramm angezeigt werden kann.
 
 
 
@@ -129,6 +131,26 @@ Das `transfer.sh` Skript wird verwendet, um Sensordaten von einer lokalen CSV-Da
 5. Bestätigt den erfolgreichen Empfang der Daten auf dem Server.
 6. Protokolliert den Übertragungsvorgang und eventuelle Fehler.
 
+
+
+## Erklärung des Python Codes (GUIDia.py):
+
+### connect_to_db(sensor_name=None)
+Diese Funktion stellt eine Verbindung zur MariaDB-Datenbank her und führt eine Abfrage aus, um entweder alle SensorNamen oder die Messwerte eines bestimmten Sensors abzurufen. Die Daten werden nach Datum sortiert und zurückgegeben.
+
+### GUIDia(QWidget)
+Diese Klasse erstellt die grafische Benutzeroberfläche (GUI) für das Programm. Sie enthält folgende Methoden:
+
+- `__init__()`: Initialisiert die GUI, setzt das Layout und fügt Widgets wie Labels, ComboBox und Buttons hinzu.
+- `init_combobox()`: Füllt die ComboBox mit den verfügbaren SensorNamen aus der Datenbank.
+- `plot()`: Erstellt ein Liniendiagramm für den ausgewählten Sensor, indem die Messwerte aus der Datenbank abgerufen und mit Matplotlib geplottet werden.
+
+### Hauptprogramm
+Das Hauptprogramm führt folgende Schritte aus:
+1. Erstellt eine Instanz der QApplication.
+2. Erstellt eine Instanz der GUIDia-Klasse.
+3. Zeigt das GUI-Fenster an.
+4. Startet die Ereignisschleife der Anwendung.
 
 ## Installation von MariaDB und phpMyAdmin unter Linux
 
