@@ -22,6 +22,7 @@ import java.util.Set;
 public class SensorDia extends JFrame {
     private JComboBox<String> sensorComboBox;
     private JPanel chartPanelContainer;
+    private JCheckBox showAllSensorsCheckBox;
 
     public SensorDia() {
         setTitle("Liniendiagramm");
@@ -36,6 +37,9 @@ public class SensorDia extends JFrame {
         controlPanel.add(new JLabel("Sensor:"));
         controlPanel.add(sensorComboBox);
 
+        showAllSensorsCheckBox = new JCheckBox("Alle Sensoren anzeigen");
+        controlPanel.add(showAllSensorsCheckBox);
+
         add(controlPanel, BorderLayout.NORTH);
 
         chartPanelContainer = new JPanel(new BorderLayout());
@@ -47,6 +51,13 @@ public class SensorDia extends JFrame {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     plot();
                 }
+            }
+        });
+
+        showAllSensorsCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                plot();
             }
         });
 
@@ -69,33 +80,33 @@ public class SensorDia extends JFrame {
     }
 
     private void plot() {
-        String sensorName = (String) sensorComboBox.getSelectedItem();
+        boolean showAllSensors = showAllSensorsCheckBox.isSelected();
         DBverwaltung_MySQL dbVerwaltung = new DBverwaltung_MySQL("WerteDB");
         ArrayList<Messwert> messwerte = dbVerwaltung.getAlleMesswerte();
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Messwert messwert : messwerte) {
-            if (messwert.getSensorName().equals(sensorName)) {
-                dataset.addValue(messwert.getWert(), "Wert", messwert.getDatum());
+            if (showAllSensors || messwert.getSensorName().equals(sensorComboBox.getSelectedItem())) {
+                dataset.addValue(messwert.getWert(), messwert.getSensorName(), messwert.getDatum());
             }
         }
 
         JFreeChart lineChart = ChartFactory.createLineChart(
-                "Liniendiagramm für Sensor " + sensorName,
+                showAllSensors ? "Liniendiagramm für alle Sensoren" : "Liniendiagramm für Sensor " + sensorComboBox.getSelectedItem(),
                 "Datum",
                 "Wert",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
 
-        // Markierungspunkte zum Liniendiagramm hinzufügen
-        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-        renderer.setSeriesShapesVisible(0, true);
-        renderer.setSeriesShape(0, new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6));
-        renderer.setSeriesLinesVisible(0, true);
-        lineChart.getCategoryPlot().setRenderer(renderer);
+        if (!showAllSensors) {
+            LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+            renderer.setSeriesShapesVisible(0, true);
+            renderer.setSeriesShape(0, new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6));
+            renderer.setSeriesLinesVisible(0, true);
+            lineChart.getCategoryPlot().setRenderer(renderer);
+        }
 
-        // Datumstext kleiner machen
         CategoryAxis domainAxis = lineChart.getCategoryPlot().getDomainAxis();
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         domainAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 8));
