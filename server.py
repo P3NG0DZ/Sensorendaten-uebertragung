@@ -43,6 +43,7 @@ while True:
 
             save_to_mariadb(datum, sensor_entry)
             save_sensor_data(datum, sensor_entry)
+            write_to_csv([sensor_entry])
 
             write_to_csv([sensor_entry])
         print("Datum:", datum)
