@@ -20,7 +20,7 @@ public class Messwert { //Setter und Getter Methoden für die Klasse Messwert
   
 
     
-    //Hauptkonstruktur mit dem ich Arbeiter für Setter und Getter Methoden erstelle
+    //Hauptkonstruktur mit dem ich Arbeite für Setter und Getter Methoden erstelle
     public Messwert(int id, String sensorName, double wert, String datum) {
         this.sensorName = sensorName;
         this.wert = wert;
