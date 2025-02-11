@@ -206,7 +206,7 @@ Das Liniendiagramm zeigt die Messwerte des ausgewählten Sensors oder aller Sens
 ### 6. Legende und Achsen
 Die Legende zeigt die Namen der Sensoren an, und die Achsen sind entsprechend formatiert.
 
-![Legende und Achsen](images/legende_achsen.png)
+![Legende und Achsen](images/legenden_achsen.png)
 
 
 
