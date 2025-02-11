@@ -42,7 +42,7 @@ Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbei
 Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
 Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
 
-Mit dem Skript `GUIDia.py` können die Sensormessungen in einem Liniendiagramm dargestellt werden. Der SensorName wird über eine ComboBox ausgewählt, sodass das entsprechende Diagramm angezeigt werden kann.
+Mit dem Skript `GUIDia.py` und bei SensorDia die `SensorDia.java` können die Sensormessungen in einem Liniendiagramm dargestellt werden. Der SensorName wird über eine ComboBox ausgewählt, sodass das entsprechende Diagramm angezeigt werden kann.
 
 
 
