@@ -116,7 +116,7 @@ Das Hauptprogramm führt folgende Schritte aus:
 5. Sendet die Sensordaten über die serielle Schnittstelle an den Server.
 6. Wartet eine Sekunde und wiederholt den Vorgang.
 
-Er hat zuerst ein limit von 10 Sensordaten. Wird aber möglich erweitert.
+
 
 
 
