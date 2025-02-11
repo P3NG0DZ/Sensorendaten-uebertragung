@@ -5,8 +5,7 @@ import serial
 import re
 import time
 
-data_limit = 10  # Limit für die Anzahl der Sensordaten
-current_data = 0  # Zähler für die Anzahl der Sensordaten
+
 
 
 # Suche nach angeschlossenen ttyUSB Geräten
@@ -22,7 +21,7 @@ ser = serial.Serial(usb_devices[0], 9600)  # Serielle Schnittstelle öffnen
 if not ser.is_open:
     ser.open()
 
-while current_data < data_limit:
+while True:
     print("Bitte geben die Sensordaten ein:")
     sensor_data = input().strip()  # Eingabe der Sensordaten
 
@@ -35,12 +34,15 @@ while current_data < data_limit:
     if ser.is_open:
         ser.write((sensor_data + '\n').encode())  # Newline am Ende hinzufügen
         print("Sensordaten gesendet:", sensor_data)
-        current_data += 1  # Zähler erhöhen
         time.sleep(1)  # Wartezeit von 1 Sekunde
     else:
         print("Serielle Verbindung ist geschlossen. Versuche erneut zu öffnen.")
-        ser.open()
+        
+        try:
+            ser.open()
+        except serial.SerialException:
+            print("Serielle Verbindung konnte nicht geöffnet werden. Beende Programm.")
+            break
 
-print("Datenlimit erreicht. Programm beendet.")
 
 
