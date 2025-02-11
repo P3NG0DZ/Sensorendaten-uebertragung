@@ -4,7 +4,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,6 +85,18 @@ public class SensorDia extends JFrame {
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
+
+        // Add marker points to the line chart
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+        renderer.setSeriesShapesVisible(0, true);
+        renderer.setSeriesShape(0, new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6));
+        renderer.setSeriesLinesVisible(0, true);
+        lineChart.getCategoryPlot().setRenderer(renderer);
+
+        // Make the date text smaller
+        CategoryAxis domainAxis = lineChart.getCategoryPlot().getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+        domainAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 8));
 
         ChartPanel chartPanel = new ChartPanel(lineChart);
         chartPanel.setPreferredSize(new Dimension(1400, 800));
