@@ -62,7 +62,7 @@ public class SensorDia extends JFrame {
             sensorComboBox.addItem(sensorName);
         }
         if (sensorComboBox.getItemCount() > 0) {
-            sensorComboBox.setSelectedIndex(0); // Automatically select the first sensor's data
+            sensorComboBox.setSelectedIndex(0); // Automatisch die Daten des ersten Sensors auswählen
         }
     }
 
@@ -86,14 +86,14 @@ public class SensorDia extends JFrame {
                 PlotOrientation.VERTICAL,
                 true, true, false);
 
-        // Add marker points to the line chart
+        // Markierungspunkte zum Liniendiagramm hinzufügen
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         renderer.setSeriesShapesVisible(0, true);
         renderer.setSeriesShape(0, new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6));
         renderer.setSeriesLinesVisible(0, true);
         lineChart.getCategoryPlot().setRenderer(renderer);
 
-        // Make the date text smaller
+        // Datumstext kleiner machen
         CategoryAxis domainAxis = lineChart.getCategoryPlot().getDomainAxis();
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         domainAxis.setTickLabelFont(new Font("Dialog", Font.PLAIN, 8));
