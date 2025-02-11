@@ -84,10 +84,10 @@ def write_to_csv(data):  # Sensordaten in CSV-Datei speichern. Jeder Datensatz b
     with open('messdaten.csv', mode='a', newline='') as file:  # Sensordaten in CSV-Datei speichern
         writer = csv.writer(file)  # CSV-Writer erstellen
         if not file_exists:
-            writer.writerow(["Datum", "SensorName", "Wert"])
+            writer.writerow(["Datum", "SensorName", "Vorzeichen", "Wert"])
         for sensor_entry in data:
             sensor_name = f"{sensor_entry['sensor_art']}{sensor_entry['sensor_nummer']}"
-            writer.writerow([datum.strftime('%Y-%m-%d %H:%M:%S'), sensor_name, sensor_entry["value"]])
+            writer.writerow([datum.strftime('%Y-%m-%d %H:%M:%S'), sensor_name, sensor_entry['sign'], sensor_entry["value"]])
 
 if __name__ == "__main__": 
     if len(sys.argv) != 2: ## Fehlermeldung, wenn Sensordaten fehlen bzw kein Übergabeparameter vorhanden ist
