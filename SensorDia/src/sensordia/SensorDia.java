@@ -73,7 +73,7 @@ public class SensorDia extends JFrame {
             }
         });
 
-        timer = new Timer(5000, new ActionListener() {
+        timer = new Timer(5000, new ActionListener() { // Timer, der alle 5 Sekunden checkt, ob sich die Anzahl der Messwerte geändert hat
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkForUpdates();
@@ -83,7 +83,7 @@ public class SensorDia extends JFrame {
     }
 
     @Override
-    public void dispose() {
+    public void dispose() { // Timer stoppen, wenn das Fenster geschlossen wird
         if (timer != null) {
             timer.stop();
         }
