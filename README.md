@@ -155,7 +155,7 @@ Das Hauptprogramm führt folgende Schritte aus:
 
 
 
-## Erklärung des Python Codes (temperatur_plot.py):
+## Erklärung des Python Codes (sensor_plot.py):
 
 ### read_csv(file_path, sensor_name=None)
 Diese Funktion liest die Daten aus einer CSV-Datei und filtert sie optional nach einem bestimmten Sensor. Die Daten werden nach Datum sortiert und zurückgegeben.
