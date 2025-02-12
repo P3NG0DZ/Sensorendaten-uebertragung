@@ -18,11 +18,15 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SensorDia extends JFrame {
     private JComboBox<String> sensorComboBox;
     private JPanel chartPanelContainer;
     private JCheckBox showAllSensorsCheckBox;
+    private Timer timer;
+    private int lastCount = 0; // Zuletzt gezählte Anzahl an Messwerten
 
     public SensorDia() {
         setTitle("Liniendiagramm");
@@ -62,6 +66,45 @@ public class SensorDia extends JFrame {
         });
 
         initComboBox();
+        timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkForUpdates();
+            }
+        });
+
+        timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkForUpdates();
+            }
+        });
+        timer.start();
+    }
+
+    @Override
+    public void dispose() {
+        if (timer != null) {
+            timer.stop();
+        }
+        super.dispose();
+    }
+
+    private void checkForUpdates() { // Checkt nach Aktualisierungen
+        DBverwaltung_MySQL dbVerwaltung = new DBverwaltung_MySQL("WerteDB");
+
+        int currenCount = dbVerwaltung.getAnzahlMesswerte();
+
+        if (currenCount != lastCount) {
+            lastCount = currenCount;
+            String selectedSensor = (String) sensorComboBox.getSelectedItem(); // Aktuell ausgewählten Sensor speichern
+            initComboBox();
+            sensorComboBox.setSelectedItem(selectedSensor); // Gespeicherten Sensor wieder auswählen
+            plot();
+        } else {
+            plot(); // Aktualisiere das Diagramm auch, wenn die Anzahl der Messwerte gleich bleibt
+        }
+
     }
 
     private void initComboBox() {
@@ -71,11 +114,12 @@ public class SensorDia extends JFrame {
         for (Messwert messwert : messwerte) {
             sensorNames.add(messwert.getSensorName());
         }
+        sensorComboBox.removeAllItems(); // Vor dem Hinzufügen von Items die ComboBox leeren
         for (String sensorName : sensorNames) {
             sensorComboBox.addItem(sensorName);
         }
-        if (sensorComboBox.getItemCount() > 0) {
-            sensorComboBox.setSelectedIndex(0); // Automatisch die Daten des ersten Sensors auswählen
+        if (sensorComboBox.getItemCount() > 0 && sensorComboBox.getSelectedItem() == null) {
+            sensorComboBox.setSelectedIndex(0); // Automatisch die Daten des ersten Sensors auswählen, wenn keiner ausgewählt ist
         }
     }
 

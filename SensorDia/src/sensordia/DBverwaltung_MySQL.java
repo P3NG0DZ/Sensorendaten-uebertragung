@@ -3,6 +3,11 @@ package sensordia;
 import java.sql.*;
 import java.util.*;
 
+
+//SQL Tabelle von Messung:
+//id, datum, sensorName, Wert
+
+
 public class DBverwaltung_MySQL {
     DBZugriff_MySQL db;
 
@@ -86,5 +91,31 @@ public class DBverwaltung_MySQL {
                 + "' WHERE id = " + einMesswert.getID() + ";";
         System.out.println(sql);
         return db.aendern(sql);
+    }
+
+
+    public int getAnzahlMesswerte() { // Überprüft ob sich Daten in der Datenbank geändert haben
+        int anzahl = 0;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT COUNT(*) AS anzahl FROM messung;";
+            rs = db.lesen(sql);
+            if (rs.next()) {
+                anzahl = rs.getInt("anzahl");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return anzahl;
+
+
     }
 }

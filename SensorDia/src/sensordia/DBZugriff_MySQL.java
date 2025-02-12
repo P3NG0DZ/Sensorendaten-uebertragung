@@ -11,6 +11,7 @@ public class DBZugriff_MySQL {
     String password;
     String ip;
     String port;
+    private static boolean connectionMessageShown = false; // Wird auf true gesetzt, wenn die Verbindungsmeldung bereits angezeigt wurde
 
     public DBZugriff_MySQL(String datenbankname) {
         dbname = datenbankname;
@@ -19,11 +20,7 @@ public class DBZugriff_MySQL {
         ip = "10.10.75.98";
         port = "3306";
         oeffneDB();
-        if (db != null) {
-            System.out.println("Verbindung zur Datenbank erfolgreich hergestellt.");
-        } else {
-            System.err.println("Verbindung zur Datenbank fehlgeschlagen.");
-        }
+        showConnectionMessage();
     }
 
     public DBZugriff_MySQL(String ip, String port, String datenbankname, String user, String password) {
@@ -33,11 +30,7 @@ public class DBZugriff_MySQL {
         this.ip = ip;
         this.port = port;
         oeffneDB();
-        if (db != null) {
-            System.out.println("Verbindung zur Datenbank erfolgreich hergestellt.");
-        } else {
-            System.err.println("Verbindung zur Datenbank fehlgeschlagen.");
-        }
+        showConnectionMessage();
     }
 
     public DBZugriff_MySQL(String datenbankname, String user, String password) {
@@ -47,11 +40,7 @@ public class DBZugriff_MySQL {
         ip = "10.10.75.98";
         port = "3306";
         oeffneDB();
-        if (db != null) {
-            System.out.println("Verbindung zur Datenbank erfolgreich hergestellt.");
-        } else {
-            System.err.println("Verbindung zur Datenbank fehlgeschlagen.");
-        }
+        showConnectionMessage();
     }
 
     public final void oeffneDB() {
@@ -66,6 +55,17 @@ public class DBZugriff_MySQL {
         } catch (SQLException err) {
             System.err.println("Datenbank konnte nicht geoeffnet werden!");
             err.printStackTrace();
+        }
+    }
+
+    private void showConnectionMessage() {
+        if (!connectionMessageShown) {
+            if (db != null) {
+                System.out.println("Verbindung zur Datenbank erfolgreich hergestellt.");
+            } else {
+                System.err.println("Verbindung zur Datenbank fehlgeschlagen.");
+            }
+            connectionMessageShown = true;
         }
     }
 
