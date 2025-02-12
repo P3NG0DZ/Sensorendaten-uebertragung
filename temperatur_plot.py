@@ -14,11 +14,16 @@ def read_csv(file_path, sensor_name=None):
         df = pd.read_csv(file_path)
         df = df.dropna(subset=["Datum"])  # Leerzeilen entfernen
         
-        # Vorzeichen in numerische Werte umwandeln
-        df["Vorzeichen"] = df["Vorzeichen"].map({'+': 1, '-': -1})
-        df["Wert"] = df["Vorzeichen"] * pd.to_numeric(df["Wert"], errors='coerce')
+        if "Vorzeichen" in df.columns:
+            # Vorzeichen in numerische Werte umwandeln
+            df["Vorzeichen"] = df["Vorzeichen"].map({'+': 1, '-': -1})
+            df["Wert"] = df["Vorzeichen"] * pd.to_numeric(df["Wert"], errors='coerce')
+        else:
+            df["Wert"] = pd.to_numeric(df["Wert"], errors='coerce')
         
-        df["Datum"] = pd.to_datetime(df["Datum"])
+        # Datum in datetime umwandeln, falls es als String vorliegt
+        if df["Datum"].dtype == 'object':
+            df["Datum"] = pd.to_datetime(df["Datum"], format='%Y-%m-%d %H:%M:%S')
         
         if sensor_name:
             df = df[df["SensorName"] == sensor_name]
@@ -108,7 +113,7 @@ class GUIDia(QWidget):
         
         # Datumsformatierung
         ax.xaxis.set_major_locator(AutoDateLocator())
-        ax.xaxis.set_major_formatter(DateFormatter('%d.%m.%Y\n%H:%M'))
+        ax.xaxis.set_major_formatter(DateFormatter('%d.%m.%Y %H:%M'))
         plt.xticks(fontsize=9, rotation=45, ha='right')
         plt.gcf().autofmt_xdate()
 
