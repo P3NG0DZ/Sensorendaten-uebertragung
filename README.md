@@ -70,7 +70,7 @@ python main.py ":T01+015.1;"
 
 Die Ausgabe enthält:
 1. Den Original-String
-2. Zerlegte Werte (Sensortyp, ID, Wert, Vorzeichen)
+2. Zerlegte Werte (Sensortyp, ID, Vorzeichen, Wert)
 3. Zeitstempel (normal und als Unix-Timestamp)
 4. Speicherung der Werte in Datenbanken und CSV
 
