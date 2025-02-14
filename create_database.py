@@ -7,7 +7,7 @@ def create_database():
     # Tabelle erstellen
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS messung (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             datum TEXT,
             sensorName TEXT,
             Wert TEXT

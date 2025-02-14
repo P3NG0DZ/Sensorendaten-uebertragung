@@ -42,7 +42,7 @@ Die Sensordaten folgen einem standardisierten Format:
 - **Echtzeit-Datenverarbeitung** über serielle Schnittstelle
 - **Speicherung** der Messwerte in SQLite und MariaDB
 - **CSV-Export** zur Weiterverarbeitung
-- **Grafische Visualisierung** der Messwerte mit Matplotlib
+- **Grafische Visualisierung** der Messwerte mit Matplotlib oder bei SensorDia.java mit JFreeChart
 
 ## Installation & Einrichtung
 
@@ -79,13 +79,12 @@ Die Ausgabe enthält:
 **MariaDB-Setup:**
 
 ```sql
-CREATE DATABASE Sensordaten;
+CREATE DATABASE WerteDB;
 CREATE TABLE messwerte (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    zeit TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    sensor_typ VARCHAR(10),
-    sensor_id INT,
-    wert FLOAT
+    id INTEGER PRIMARY KEY,
+    datum TEXT,
+    sensorName TEXT,
+    Wert TEXT
 );
 ```
 
