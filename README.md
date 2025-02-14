@@ -1,346 +1,112 @@
-## Datenübertragung
+# Sensordatenübertragung
 
-Dieses Projekt wird sich darauf beziehen, Sensorenübertragung durchzuführen. Auch wird sich mit dem Auswerten eines Strings beschäftigt.
+Dieses Projekt befasst sich mit der Erfassung, Übertragung und Speicherung von Sensordaten. Die Daten werden sowohl lokal als auch auf einem Server gespeichert und können über eine grafische Benutzeroberfläche visualisiert werden.
 
-Es handelt sich hierbei um ein Schulprojekt. Nichts spannendes. Wer gerne meinen Weg verfolgen will oder so ein ähnliches Projekt hat, fühlt euch frei, diesen Code etwas zu verändern oder zu nutzen :)
+## Inhaltsverzeichnis
 
-Diese Werte werden dann in einer Datenbank angelegt (Lokal so als auch auf einem Server).
+- [Überblick](#überblick)
+- [Sensordatenformat](#sensordatenformat)
+- [Funktionalität](#funktionalität)
+- [Installation & Einrichtung](#installation--einrichtung)
+- [Verwendung](#verwendung)
+- [Datenbankintegration](#datenbankintegration)
+- [GUI-Datenvisualisierung](#gui-datenvisualisierung)
+- [Automatisierte Datenübertragung](#automatisierte-datenübertragung)
+- [Lizenz](#lizenz)
 
-## Der Plan (Protokoll zur Sensordatenübertragung)
+## Überblick
 
-:T00+000.1;      wobei
+Das Projekt ermöglicht die Übertragung von Sensordaten über eine serielle Schnittstelle oder per Dateiimport. Die Daten werden analysiert, gespeichert und können über verschiedene Schnittstellen weiterverarbeitet werden.
 
-: = Startzeichen  
-T = Art des Sensors  
-00 = Nummer des Sensors  
-"+" = Vorzeichen  
-000.0 = Stellenanzahl  
-; = Abschlusszeichen  
+## Sensordatenformat
 
-Das Programm soll mithilfe eines Übergabeparameters gestartet werden.  
-Beispiel: `python main.py ":T01+015.1;"`
+Die Sensordaten folgen einem standardisierten Format:
 
-Der Code soll dann zuerst folgendes ausgeben:
-1. Hallo: :T01+015.1;
-2. :
-3. T
-4. 01
-5. "+"
-6. 015.1
-7. ;
-8. Datum
-9. Datum als long
-
-Die Zeit soll sowohl im normalen Format als auch als Long-Wert ausgegeben werden. Der Long-Wert wird anschließend wieder in ein Datum umgewandelt.
-
-Es wurde extra ein MariaDB-Server aufgesetzt, um die Sensordaten in einer Datenbank zu speichern. Genutzt wird hier eine Raspberry Pi 3b+.
-Bis jetzt wird sie auch noch lokal gespeichert. Eine Anleitung wie man ein MariaDB-Server mit phpMyAdmin aufsetzt, findet ihr bei diesem Markdown:
-Installation phpmyadmin mit MariaDB Linux
-
-Zudem soll es auch möglich sein, dass es einen komplexen Eingabestring verarbeiten kann.
-
-Beispiel: `:T00+001.0T01+002.0T02+003.0T03+010.0T04+011.0T05+012.0T06+010.0T07+011.0T08+012.0;`
-Der Eingabestring erhält mehrere Sensordaten, die nacheinander verarbeitet werden sollen.
-
-Mit dem Skript `GUIDia.py` und bei SensorDia die `SensorDia.java` können die Sensormessungen in einem Liniendiagramm dargestellt werden. Der SensorName wird über eine ComboBox ausgewählt, sodass das entsprechende Diagramm angezeigt werden kann.
-
-
-
-## Erklärung des Python Codes (main.py):
-
-### parse_sensor_data(data)
-Diese Funktion nimmt einen String `data` im Sensordatenformat und zerlegt ihn in seine Bestandteile:
-- `sensor_art`: Art des Sensors (z.B. T)
-- `sensor_nummer`: Nummer des Sensors (z.B. 01)
-- `sign`: Vorzeichen des Wertes (z.B. +)
-- `value`: Wert des Sensors (z.B. 015.1)
-
-### long_zu_zahl(datum_als_long)
-Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
-
-### save_to_mariadb(current_date, sensor_data)
-Diese Funktion speichert die Sensordaten in einer MariaDB Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
-
-### save_sensor_data(current_date, sensor_data)
-Diese Funktion speichert die Sensordaten in einer lokalen SQLite-Datenbank. Sie stellt eine Verbindung zur Datenbank her, fügt die Daten in die Tabelle `messung` ein und schließt die Verbindung.
-
-### write_to_csv(data)
-Diese Funktion schreibt die Sensordaten in eine CSV-Datei `messdaten.csv`. Sie überprüft, ob die Datei bereits existiert, und schreibt die Daten in die Datei oder erstellt eine neue Datei.
-
-### Hauptprogramm
-Das Hauptprogramm führt folgende Schritte aus:
-1. Überprüft, ob das Programm mit genau einem Parameter gestartet wurde. 
-2. Gibt den übergebenen Sensordaten-String aus.
-3. Zerlegt den Sensordaten-String in seine Bestandteile und gibt diese aus.
-4. Gibt das aktuelle Datum, das Datum als Long-Wert und das umgewandelte Datum zurück.
-5. Speichert die Sensordaten in einer lokalen SQLite-Datenbank und auf einem MariaDB-Server. Außerdem wird eine CSV-Datei `messdaten.csv` erstellt oder die Daten in eine bestehende CSV-Datei mit dem gleichen Namen geschrieben.
-
-
-## Erklärung des Python Codes (server.py):
-
-Die Funktionen wurden aus der `main.py` importiert.
-
-### parse_sensor_data(line)
-Diese Funktion analysiert die empfangenen Daten und zerlegt sie in ihre Bestandteile, um sie weiterzuverarbeiten.
-
-### save_to_mariadb(data)
-Diese Funktion speichert die empfangenen Sensordaten in einer MariaDB-Datenbank.
-
-### save_sensor_data(data)
-Diese Funktion speichert die empfangenen Sensordaten in einer lokalen SQLite-Datenbank.
-
-### long_zu_zahl(datum_als_long)
-Diese Funktion wandelt einen Long-Wert in eine Zahl um, indem sie die ersten acht Ziffern des Long-Werts extrahiert.
-
-### write_to_csv(data)
-Diese Funktion schreibt die empfangenen Sensordaten in eine CSV-Datei `messdaten.csv`.
-
-### Hauptprogramm
-Das Hauptprogramm führt folgende Schritte aus:
-1. Sucht nach angeschlossenen ttyUSB Geräten.
-2. Öffnet die serielle Schnittstelle des ersten gefundenen ttyUSB Geräts.
-3. Liest kontinuierlich Daten von der seriellen Schnittstelle.
-4. Analysiert die empfangenen Daten und speichert sie in der Datenbank.
-5. Gibt die empfangenen Daten und das aktuelle Datum aus.
-
-
-
-## Erklärung des Python Codes (client.py):
-
-### Hauptprogramm
-Das Hauptprogramm führt folgende Schritte aus:
-1. Sucht nach angeschlossenen ttyUSB Geräten.
-2. Öffnet die serielle Schnittstelle des ersten gefundenen ttyUSB Geräts.
-3. Fordert den Benutzer auf, Sensordaten einzugeben.
-4. Überprüft, ob die eingegebenen Sensordaten dem erwarteten Muster entsprechen.
-5. Sendet die Sensordaten über die serielle Schnittstelle an den Server.
-6. Wartet eine Sekunde und wiederholt den Vorgang.
-
-
-
-
-
-## Erklärung des bash scriptes (transfer.sh):
-
-Das `transfer.sh` Skript wird verwendet, um Sensordaten von einer lokalen CSV-Datei `messdaten.csv` auf einen Server zu übertragen. Es führt folgende Schritte aus:
-
-1. Überprüft, ob die erforderlichen Parameter übergeben wurden.
-2. Liest die Sensordaten von der csv-Datei.
-3. Verarbeitet die Sensordaten und formatiert sie für die Übertragung.
-4. Überträgt die formatierten Sensordaten an den Server.
-5. Bestätigt den erfolgreichen Empfang der Daten auf dem Server.
-6. Protokolliert den Übertragungsvorgang und eventuelle Fehler.
-
-
-
-
-## Erklärung des Python Codes (GUIDia.py):
-
-### connect_to_db(sensor_name=None)
-Diese Funktion stellt eine Verbindung zur MariaDB-Datenbank her und führt eine Abfrage aus, um entweder alle SensorNamen oder die Messwerte eines bestimmten Sensors abzurufen. Die Daten werden nach Datum sortiert und zurückgegeben.
-
-### GUIDia(QWidget)
-Diese Klasse erstellt die grafische Benutzeroberfläche (GUI) für das Programm. Sie enthält folgende Methoden:
-
-- `__init__()`: Initialisiert die GUI, setzt das Layout und fügt Widgets wie Labels, ComboBox und Buttons hinzu.
-- `init_combobox()`: Füllt die ComboBox mit den verfügbaren SensorNamen aus der Datenbank.
-- `plot()`: Erstellt ein Liniendiagramm für den ausgewählten Sensor, indem die Messwerte aus der Datenbank abgerufen und mit Matplotlib geplottet werden.
-
-### Hauptprogramm
-Das Hauptprogramm führt folgende Schritte aus:
-1. Erstellt eine Instanz der QApplication.
-2. Erstellt eine Instanz der GUIDia-Klasse.
-3. Zeigt das GUI-Fenster an.
-4. Startet die Ereignisschleife der Anwendung.
-
-
-
-## Erklärung des Python Codes (sensor_plot.py):
-
-### read_csv(file_path, sensor_name=None)
-Diese Funktion liest die Daten aus einer CSV-Datei und filtert sie optional nach einem bestimmten Sensor. Die Daten werden nach Datum sortiert und zurückgegeben.
-
-### GUIDia(QWidget)
-Diese Klasse erstellt die grafische Benutzeroberfläche (GUI) für das Programm. Sie enthält folgende Methoden:
-
-- `__init__(csv_file)`: Initialisiert die GUI, setzt das Layout und fügt Widgets wie Labels, ComboBox und CheckBox hinzu.
-- `init_combobox()`: Füllt die ComboBox mit den verfügbaren SensorNamen aus der CSV-Datei.
-- `toggle_sensor_selection()`: Aktiviert oder deaktiviert die ComboBox basierend auf dem Zustand der CheckBox.
-- `plot()`: Erstellt ein Liniendiagramm für den ausgewählten Sensor oder alle Sensoren, indem die Messwerte aus der CSV-Datei abgerufen und mit Matplotlib geplottet werden.
-
-### Hauptprogramm
-Das Hauptprogramm führt folgende Schritte aus:
-1. Erstellt eine Instanz der QApplication.
-2. Erstellt eine Instanz der GUIDia-Klasse mit dem Pfad zur CSV-Datei.
-3. Zeigt das GUI-Fenster an.
-4. Startet die Ereignisschleife der Anwendung.
-
-## Ablauf mit Bildern
-
-### 1. Starten des Programms
-Das Programm wird mit dem Pfad zur CSV-Datei gestartet:
-```bash
-python temperatur_plot.py messdaten.csv
+```plaintext
+:T00+000.1;
 ```
 
-### 2. GUI-Fenster
-Nach dem Starten des Programms wird das GUI-Fenster angezeigt.
+**Bedeutung der Komponenten:**
 
-![GUI-Fenster](images/gui_fenster.png)
+| Zeichen | Bedeutung            |
+|---------|----------------------|
+| `:`     | Startzeichen         |
+| `T`     | Sensortyp            |
+| `00`    | Sensor-ID            |
+| `+`     | Vorzeichen           |
+| `000.1` | Messwert             |
+| `;`     | Abschlusszeichen     |
 
-### 3. Auswahl eines Sensors
-Wählen Sie einen Sensor aus der ComboBox aus, um das entsprechende Liniendiagramm anzuzeigen.
+## Funktionalität
 
-![Sensor auswählen](images/sensor_auswaehlen.png)
+- **Echtzeit-Datenverarbeitung** über serielle Schnittstelle
+- **Speicherung** der Messwerte in SQLite und MariaDB
+- **CSV-Export** zur Weiterverarbeitung
+- **Grafische Visualisierung** der Messwerte mit Matplotlib
 
-### 4. Alle Sensoren anzeigen
-Aktivieren Sie die CheckBox "Alle Sensoren anzeigen", um die Messwerte aller Sensoren in einem Liniendiagramm darzustellen.
-
-![Alle Sensoren anzeigen](images/alle_sensoren_anzeigen.png)
-
-### 5. Liniendiagramm
-Das Liniendiagramm zeigt die Messwerte des ausgewählten Sensors oder aller Sensoren an.
-
-![Liniendiagramm](images/liniendiagramm.png)
-
-### 6. Legende und Achsen
-Die Legende zeigt die Namen der Sensoren an, und die Achsen sind entsprechend formatiert.
-
-![Legende und Achsen](images/legenden_achsen.png)
-
-
-
-## Installation von MariaDB und phpMyAdmin unter Linux
-
-Diese Anleitung beschreibt die Schritte zur Installation von MariaDB und phpMyAdmin unter Linux sowie die Einrichtung einer Datenbank. Diese Anleitung umfasst auch die Konfiguration für den Fernzugriff.
+## Installation & Einrichtung
 
 ### Voraussetzungen
+- Raspberry Pi 3b+ (oder kompatibles System)
+- Python 3 mit erforderlichen Bibliotheken
+- MariaDB-Server für serverseitige Speicherung
 
-- Ein Linux-System mit Root-Zugriff (Anleitung wurde mit ein Debian-System getestet)
-- Ein Terminal
+### Installation
 
+```bash
+sudo apt update && sudo apt install -y python3 python3-pip mariadb-server
+pip3 install -r requirements.txt
+```
 
-### Schritt 1: MariaDB installieren
+## Verwendung
 
-1. Öffne ein Terminal.
-2. Aktualisiere die Paketliste:
-    ```bash
-    sudo apt update
-    ```
-3. Installiere MariaDB:
-    ```bash
-    sudo apt install mariadb-server
-    ```
-4. Starte den MariaDB-Dienst und aktiviere ihn beim Systemstart:
-    ```bash
-    sudo systemctl start mariadb
-    sudo systemctl enable mariadb
-    ```
-5. Führe das Sicherheits-Skript aus, um die Installation abzusichern:
-    ```bash
-    sudo mysql_secure_installation
-    ```
-    Folge den Anweisungen auf dem Bildschirm.
+### Start des Programms
 
-### Schritt 2: phpMyAdmin installieren und Admin-Benutzer erstellen
+Das Hauptskript wird mit einem Sensordaten-String als Parameter gestartet:
 
-1. Installiere phpMyAdmin:
-    ```bash
-    sudo apt install phpmyadmin
-    ```
-2. Wähle während der Installation den Webserver aus (z.B. Apache2) und konfiguriere die Datenbank für phpMyAdmin.
-3. Melde dich bei MariaDB an:
-    ```bash
-    sudo mysql -u root -p
-    ```
-4. Erstelle einen neuen Admin-Benutzer und gewähre ihm alle Rechte:
-    ```sql
-    CREATE USER 'admin'@'localhost' IDENTIFIED BY 'adminpasswort';
-    GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
-    FLUSH PRIVILEGES;
-    ```
-5. Beende die MariaDB-Sitzung:
-    ```sql
-    EXIT;
-    ```
+```bash
+python main.py ":T01+015.1;"
+```
 
-### Schritt 3: MariaDB konfigurieren
+Die Ausgabe enthält:
+1. Den Original-String
+2. Zerlegte Werte (Sensortyp, ID, Wert, Vorzeichen)
+3. Zeitstempel (normal und als Unix-Timestamp)
+4. Speicherung der Werte in Datenbanken und CSV
 
-1. Melde dich bei MariaDB an:
-    ```bash
-    sudo mysql -u admin -p
-    ```
-2. Erstelle eine neue Datenbank:
-    ```sql
-    CREATE DATABASE WerteDB;
-    ```
-3. Erstelle einen neuen Benutzer und gewähre ihm alle Rechte auf die neue Datenbank:
-    ```sql
-    CREATE USER 'benutzer'@'%' IDENTIFIED BY 'passwort';
-    GRANT ALL PRIVILEGES ON WerteDB.* TO 'benutzer'@'%';
-    FLUSH PRIVILEGES;
-    ```
-4. Beende die MariaDB-Sitzung:
-    ```sql
-    EXIT;
-    ```
+## Datenbankintegration
 
-### Schritt 4: MariaDB für Fernzugriff konfigurieren
+**MariaDB-Setup:**
 
-1. Öffne die MariaDB-Konfigurationsdatei:
-    ```bash
-    sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
-    ```
-2. Suche die Zeile mit `bind-address` und ändere sie auf `0.0.0.0`:
-    ```ini
-    bind-address = 0.0.0.0
-    ```
-3. Speichere die Datei und starte den MariaDB-Dienst neu:
-    ```bash
-    sudo systemctl restart mariadb
-    ```
+```sql
+CREATE DATABASE Sensordaten;
+CREATE TABLE messwerte (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    zeit TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sensor_typ VARCHAR(10),
+    sensor_id INT,
+    wert FLOAT
+);
+```
 
-### Schritt 5: Firewall konfigurieren
+## GUI-Datenvisualisierung
 
-1. Erlaube den Fernzugriff auf den MariaDB-Port (3306):
-    ```bash
-    sudo ufw allow 3306/tcp
-    ```
+Eine GUI-Anwendung erlaubt die Auswahl eines Sensors und zeigt dessen Messwerte als Diagramm.
 
-### Schritt 6: phpMyAdmin konfigurieren
+### Starten der GUI
 
-1. Öffne deinen Webbrowser und navigiere zu `http://<deine-ip-adresse>/phpmyadmin`.
-2. Melde dich mit dem neu erstellten Benutzer `admin` und dem Passwort `adminpasswort` an.
-3. Wähle die Datenbank `WerteDB` aus und erstelle die Tabelle `messung`:
-    ```sql
-    CREATE TABLE messung (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        datum TEXT,
-        sensorName TEXT,
-        Wert TEXT
-    );
-    ```
+```bash
+python GUIDia.py
+```
 
-### Schritt 7: Datenbank in phpMyAdmin erstellen
+## Automatisierte Datenübertragung
 
-1. Melde dich bei phpMyAdmin an, indem du `http://<deine-ip-adresse>/phpmyadmin` in deinem Webbrowser aufrufst.
-2. Gib den Benutzernamen `admin` und das Passwort `adminpasswort` ein.
-3. Klicke auf "Datenbanken" im oberen Menü.
-4. Gib unter "Datenbank erstellen" den Namen `WerteDB` ein und klicke auf "Anlegen".
-5. Wähle die neu erstellte Datenbank `WerteDB` aus der Liste auf der linken Seite aus.
-6. Klicke auf "SQL" im oberen Menü und füge das folgende SQL-Skript ein, um die Tabelle `messung` zu erstellen:
-    ```sql
-    CREATE TABLE messung (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        datum TEXT,
-        sensorName TEXT,
-        Wert TEXT
-    );
-    ```
-7. Klicke auf "OK", um das Skript auszuführen und die Tabelle zu erstellen.
+Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server senden.
 
-### Fertig!
+```bash
+./transfer.sh
+```
 
-Du hast nun MariaDB und phpMyAdmin installiert, einen Admin-Benutzer erstellt und eine Datenbank eingerichtet. Du kannst nun Sensordaten in die Datenbank speichern und verwalten und von anderen Geräten aus darauf zugreifen.
+## Lizenz
 
-
+Dieses Projekt steht unter der MIT-Lizenz. Jeder ist eingeladen, den Code zu nutzen und zu erweitern.
