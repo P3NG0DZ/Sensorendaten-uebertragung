@@ -12,6 +12,7 @@ Dieses Projekt befasst sich mit der Erfassung, Übertragung und Speicherung von 
 - [Datenbankintegration](#datenbankintegration)
 - [GUI-Datenvisualisierung](#gui-datenvisualisierung)
 - [Automatisierte Datenübertragung](#automatisierte-datenübertragung)
+- [Anwendungsbeispiel](#Anwendungsbeispiel)
 - [Lizenz](#lizenz)
 
 ## Überblick
@@ -106,6 +107,38 @@ Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server sende
 ./transfer.sh
 ```
 
+
+## Anwendungsbeispiel
+
+### Voraussetzungen
+- 1x Raspberry Pi 3B+
+- 1x ADS1115
+- 3x 10KOhm Widerstände (1x Pro Komponente)
+- 1x Potentiometer
+- 1x LDR
+- 1x PTC
+
+
+Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von einem Potentiometer, einem PTC (Kaltleiter) oder einem LDR (Fotowiderstand) einlesen. Die Codes können frei geändert werden. Updates folgen
+
+
+
+
+
+![![SensorTest/#^files]]
+Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
+
+Belegung von den Microcontroller:
+A0 = LDR
+A1 = Potentiometer
+A2 = PTC
+
+![[Plaene/Schaltplan.png]]
+![[Plaene/Steckplan.png]]
+
+
 ## Lizenz
 
-Dieses Projekt steht unter der MIT-Lizenz. Jeder ist eingeladen, den Code zu nutzen und zu erweitern.
+ ![LICENSE](LICENSE.md)
+
+
