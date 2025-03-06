@@ -132,8 +132,8 @@ Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
 
 Belegung von den Microcontroller:
 
-- A0: LDR
-- A1: Potentiometer2
+- A0: Potentiometer
+- A1: LDR
 - A2: PTC
 
 ![Schaltplan](Plaene/Schaltplan.png)

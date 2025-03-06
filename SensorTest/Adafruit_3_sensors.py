@@ -1,8 +1,8 @@
 import Adafruit_ADS1x15
 import time
 
-#A0 -> LDR
-#A1 -> Potentiometer
+#A0 -> Potentiometer
+#A1 -> LDR
 #A2 -> PTC
 
 
@@ -15,7 +15,7 @@ while True:
     value2 = adc.read_adc(1, gain=GAIN, data_rate=DATA_RATE) #Wert des Potentiometers wird ausgelesen
     value3 = adc.read_adc(2, gain=GAIN, data_rate=DATA_RATE) #Wert des PTCs wird ausgelesen
 
-    print("LDR: {0:>6}".format(value1) + "Poti: {0:>6}".format(value2) + "PTC: {0:>6}".format(value3))
+    print("Poti: {0:>6} | LDR: {1:>6} | PTC: {2:>6}".format(value1, value2, value3))
     time.sleep(0.5)
 # Das Programm wird mit Strg + C beendet
 
