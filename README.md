@@ -118,7 +118,7 @@ Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server sende
 - 3x 10KOhm Widerstände (1x Pro Komponente)
 - 1x Potentiometer
 - 1x LDR
-- 1x PTC
+- 1x NTC
 
 
 
@@ -134,7 +134,7 @@ Belegung von den Microcontroller:
 
 - A0: Potentiometer
 - A1: LDR
-- A2: PTC
+- A2: NTC
 
 ![Schaltplan](Plaene/Schaltplan.png)
 ![Steckplan](Plaene/Steckplan.png)

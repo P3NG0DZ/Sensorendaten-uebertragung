@@ -15,7 +15,7 @@ while True:
     value2 = adc.read_adc(1, gain=GAIN, data_rate=DATA_RATE) #Wert des Potentiometers wird ausgelesen
     value3 = adc.read_adc(2, gain=GAIN, data_rate=DATA_RATE) #Wert des PTCs wird ausgelesen
 
-    print("Poti: {0:>6} | LDR: {1:>6} | PTC: {2:>6}".format(value1, value2, value3))
+    print("Poti: {0:>6} | LDR: {1:>6} | NTC: {2:>6}".format(value1, value2, value3))
     time.sleep(0.5)
 # Das Programm wird mit Strg + C beendet
 
