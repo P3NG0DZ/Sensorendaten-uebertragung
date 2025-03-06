@@ -129,9 +129,9 @@ Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von ein
 Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
 
 Belegung von den Microcontroller:
-A0 = LDR
-A1 = Potentiometer
-A2 = PTC
+- A0: LDR
+- A1: Potentiometer2
+- A2: PTC
 
 ![Schaltplan](Plaene/Schaltplan.png)
 ![Steckplan](Plaene/Steckplan.png)
