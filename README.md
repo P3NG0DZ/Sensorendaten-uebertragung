@@ -126,6 +126,7 @@ Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von ein
 
 
 ![SensorTest](SensorTest/#^files)
+
 Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
 
 Belegung von den Microcontroller:
