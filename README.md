@@ -29,14 +29,14 @@ Die Sensordaten folgen einem standardisierten Format:
 
 **Bedeutung der Komponenten:**
 
-| Zeichen | Bedeutung            |
-|---------|----------------------|
-| `:`     | Startzeichen         |
-| `T`     | Sensortyp            |
-| `00`    | Sensor-ID            |
-| `+`     | Vorzeichen           |
-| `000.1` | Messwert             |
-| `;`     | Abschlusszeichen     |
+| Zeichen | Bedeutung        |
+| ------- | ---------------- |
+| `:`     | Startzeichen     |
+| `T`     | Sensortyp        |
+| `00`    | Sensor-ID        |
+| `+`     | Vorzeichen       |
+| `000.1` | Messwert         |
+| `;`     | Abschlusszeichen |
 
 ## Funktionalität
 
@@ -48,6 +48,7 @@ Die Sensordaten folgen einem standardisierten Format:
 ## Installation & Einrichtung
 
 ### Voraussetzungen
+
 - Raspberry Pi 3b+ (oder kompatibles System)
 - Python 3 mit erforderlichen Bibliotheken
 - MariaDB-Server für serverseitige Speicherung
@@ -70,6 +71,7 @@ python main.py ":T01+015.1;"
 ```
 
 Die Ausgabe enthält:
+
 1. Den Original-String
 2. Zerlegte Werte (Sensortyp, ID, Vorzeichen, Wert)
 3. Zeitstempel (normal und als Unix-Timestamp)
@@ -107,10 +109,10 @@ Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server sende
 ./transfer.sh
 ```
 
-
 ## Anwendungsbeispiel
 
 ### Voraussetzungen
+
 - 1x Raspberry Pi 3B+
 - 1x ADS1115
 - 3x 10KOhm Widerstände (1x Pro Komponente)
@@ -119,17 +121,17 @@ Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server sende
 - 1x PTC
 
 
+
+### Schaltplan
+
 Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von einem Potentiometer, einem PTC (Kaltleiter) oder einem LDR (Fotowiderstand) einlesen. Die Codes können frei geändert werden. Updates folgen
-
-
-
-
 
 ![SensorTest](SensorTest/#^files)
 
 Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
 
 Belegung von den Microcontroller:
+
 - A0: LDR
 - A1: Potentiometer2
 - A2: PTC
@@ -137,9 +139,6 @@ Belegung von den Microcontroller:
 ![Schaltplan](Plaene/Schaltplan.png)
 ![Steckplan](Plaene/Steckplan.png)
 
-
 ## Lizenz
 
  ![LICENSE](LICENSE.md)
-
-
