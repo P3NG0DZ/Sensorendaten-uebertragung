@@ -125,7 +125,7 @@ Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von ein
 
 
 
-![![SensorTest/#^files]]
+![SensorTest](SensorTest/#^files)
 Um den Code auf dem Pi zu implementieren, folgen Sie diesem Schaltplan.
 
 Belegung von den Microcontroller:
@@ -133,8 +133,8 @@ A0 = LDR
 A1 = Potentiometer
 A2 = PTC
 
-![[Plaene/Schaltplan.png]]
-![[Plaene/Steckplan.png]]
+![Schaltplan](Plaene/Schaltplan.png)
+![Steckplan](Plaene/Steckplan.png)
 
 
 ## Lizenz
