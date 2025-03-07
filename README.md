@@ -120,8 +120,6 @@ Ein Bash-Skript `transfer.sh` kann Sensordaten automatisch an einen Server sende
 - 1x LDR
 - 1x NTC
 
-
-
 ### Schaltplan
 
 Wenn ihr einen ADS1115 Mikrocontroller habt, könnt ihr Sensorwerte z.B. von einem Potentiometer, einem PTC (Kaltleiter) oder einem LDR (Fotowiderstand) einlesen. Die Codes können frei geändert werden. Updates folgen
