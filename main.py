@@ -12,8 +12,8 @@ def long_zu_zahl(datum_als_long): ## long-Wert in Zahl umwandeln
     return int(str(datum_als_long)[:8]) ## long-Wert in Zahl umwandeln
 
 def parse_sensor_data(data):
-    # Regex, um Sensorart (ein Buchstabe), Nummer (zwei Ziffern), Vorzeichen und Wert zu extrahieren
-    pattern = r"([A-Z])(\d{2})([+-])(\d+\.\d+)"
+    # Beispiel: "LDR1+123.45;PTC2-67.89;NTC1+12.34"
+    pattern = r":?([A-Z]+)(\d+)([+-])(\d+\.\d+);?"
     matches = re.findall(pattern, data)
 
     sensor_values = []
