@@ -2,14 +2,14 @@ import Adafruit_ADS1x15
 import time
 import os
 import sys
-from main import parse_sensor_data, save_sensor_data, save_to_mariadb, write_to_csv, long_zu_zahl
-from datetime import datetime
-
-
+import sys
+import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
+from main import parse_sensor_data, save_sensor_data, save_to_mariadb, write_to_csv, long_zu_zahl
+from datetime import datetime
 
 
 #A0 -> Potentiometer
