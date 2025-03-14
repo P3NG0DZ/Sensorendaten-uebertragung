@@ -52,10 +52,10 @@ while True:
     # Weitere Umrechnung:
     # Poti: 1 kOhm entspricht 10 cm => 1 Ohm entspricht 0.1 mm
     poti_mm = round(poti_ohm * 0.1, 2)
-    # NTC: Umrechnung in °C (hier:  °C = ntc_mV * 0.1)
-    ntc_deg = round(ntc_mV * 0.1, 2)
-    # LDR: Umrechnung in Lux (hier verwenden wir einen Faktor von 1.0, d.h. Lux = ldr_mV)
-    ldr_lux = round(ldr_mV * 1.0, 2)
+    # NTC: Umrechnung in °C (hier:  °C = ntc_mV * 0.01)
+    ntc_deg = round(ntc_mV * 0.01, 2)
+    # LDR: Umrechnung in Lux (hier: Lux = ldr_mV * 0.1)
+    ldr_lux = round(ldr_mV * 0.1, 2)
 
     # Ausgabe in drei Zeilen:
     # Zeile 1: Digitale Werte und Spannungswerte in mV
