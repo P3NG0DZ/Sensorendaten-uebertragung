@@ -14,6 +14,7 @@ Dieses Projekt befasst sich mit der Erfassung, Übertragung und Speicherung von 
 - [Automatisierte Datenübertragung](#automatisierte-datenübertragung)
 - [Anwendungsbeispiel](#Anwendungsbeispiel)
 - [Lizenz](#lizenz)
+- [Webserver](#webserver)
 
 ## Überblick
 
@@ -140,3 +141,6 @@ Belegung von den Microcontroller:
 ## Lizenz
 
  ![LICENSE](LICENSE.md)
+
+## Webserver
+Der Webserver stellt die grafische Oberfläche zur Echtzeit-Visualisierung der Sensordaten (über die Datei index.html) bereit und liefert über sensordata.php einen API-Endpunkt für den Datenabruf.
