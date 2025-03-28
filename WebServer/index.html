@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensorwerte in Echtzeit</title>
+    <style>
+        canvas { width: 100%; height: 600px; }
+    </style>
+    <!-- Einbinden von Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Einbinden des Date Adapters -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <!-- Einbinden des Chart.js Zoom-Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
+</head>
+<body>
+    <h1>Sensorwerte in Echtzeit</h1>
+    <!-- Neuer UI-Bereich für Sensorauswahl -->
+    <div>
+        <label for="sensorSelect">Sensor auswählen:</label>
+        <select id="sensorSelect"></select>
+        <input type="checkbox" id="showAllSensors">
+        <label for="showAllSensors">Alle Sensoren anzeigen</label>
+    </div>
+    <!-- Neuer UI-Bereich: Zeitraum -->
+    <div>
+        <label for="timeRangeSelect">Zeitraum:</label>
+        <select id="timeRangeSelect">
+            <option value="Heute">Heute</option>
+            <option value="7">7 Tage</option>
+            <option value="14">14 Tage</option>
+            <option value="30">1 Monat</option>
+            <option value="180">6 Monate</option>
+            <option value="Insgesamt" selected>Insgesamt</option>
+        </select>
+    </div>
+    <!-- Neuer UI-Bereich: Datenlimit -->
+    <div>
+        <label for="dataLimitSelect">Datenlimit:</label>
+        <select id="dataLimitSelect">
+            <option value="100">100</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="Insgesamt" selected>Insgesamt</option>
+        </select>
+    </div>
+    <canvas id="sensorChart"></canvas>
+    
+    <script>
+    let sensorChart; // Globaler Chart
+    let isUserInteracting = false; // Flag, ob der Benutzer gerade interagiert
+
+    // Eventlistener hinzufügen, um Interaktion zu erkennen
+    const chartCanvas = document.getElementById('sensorChart');
+    chartCanvas.addEventListener('mousedown', () => { isUserInteracting = true; });
+    chartCanvas.addEventListener('mouseup', () => { isUserInteracting = false; });
+    chartCanvas.addEventListener('touchstart', () => { isUserInteracting = true; });
+    chartCanvas.addEventListener('touchend', () => { isUserInteracting = false; });
+
+    // Aktualisierte Funktion: Bewahre die aktuelle Auswahl bei
+    function updateSensorSelection(data) {
+        const sensorSelect = document.getElementById('sensorSelect');
+        const previousSelection = sensorSelect.value;  // Aktuelle Auswahl speichern
+        sensorSelect.innerHTML = '';
+        const sensors = Array.from(new Set(data.map(entry => entry.sensorName)));
+        sensors.forEach(sensor => {
+            const option = document.createElement('option');
+            option.value = sensor;
+            option.text = sensor;
+            sensorSelect.appendChild(option);
+        });
+        // Wiederherstellen der vorherigen Auswahl, falls vorhanden
+        if (previousSelection && [...sensorSelect.options].some(opt => opt.value === previousSelection)) {
+            sensorSelect.value = previousSelection;
+        } else if (sensorSelect.options.length > 0) {
+            sensorSelect.value = sensorSelect.options[0].value;
+        }
+    }
+    
+    function updateSensorChart(data) {
+        // Aktualisiere die Sensor-Auswahl
+        updateSensorSelection(data);
+        const sensorSelect = document.getElementById('sensorSelect');
+        const showAll = document.getElementById('showAllSensors').checked;
+        let filteredData;
+        if (showAll) {
+            // Gruppierung: Für jeden Sensor sammeln wir Labels & Werte
+            const groups = {};
+            data.forEach(entry => {
+                if (!groups[entry.sensorName]) {
+                    groups[entry.sensorName] = [];
+                }
+                groups[entry.sensorName].push(entry);
+            });
+            filteredData = Object.entries(groups).map(([sensor, entries]) => {
+                entries.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+                return { sensor, labels: entries.map(e => e.datum), values: entries.map(e => parseFloat(e.Wert)) };
+            });
+        } else {
+            const selectedSensor = sensorSelect.value;
+            const sensorData = data.filter(entry => entry.sensorName === selectedSensor);
+            sensorData.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+            filteredData = [{ sensor: selectedSensor, labels: sensorData.map(e => e.datum), values: sensorData.map(e => parseFloat(e.Wert)) }];
+        }
+        
+        const ctx = document.getElementById('sensorChart').getContext('2d');
+        if (!sensorChart) {
+            sensorChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: filteredData[0].labels,
+                    datasets: filteredData.map((group, index) => ({
+                        label: group.sensor,
+                        data: group.values,
+                        borderColor: ['blue','red','green','orange','purple'][index % 5],
+                        fill: false,
+                        tension: 0.1
+                    }))
+                },
+                options: {
+                    animation: {
+                        duration: 0 // Animation deaktiviert, um Verzögerungen zu reduzieren
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Datum' },
+                            ticks: { autoSkip: true, maxRotation: 45 },
+                            type: 'time',
+                            time: {
+                                tooltipFormat: 'dd.MM.yyyy HH:mm',
+                                displayFormats: {
+                                    millisecond: 'dd.MM.yyyy HH:mm',
+                                    second: 'dd.MM.yyyy HH:mm',
+                                    minute: 'dd.MM.yyyy HH:mm',
+                                    hour: 'dd.MM.yyyy HH:mm',
+                                    day: 'dd.MM.yyyy',
+                                    week: 'dd.MM.yyyy',
+                                    month: 'MM.yyyy',
+                                    quarter: 'MM.yyyy',
+                                    year: 'yyyy'
+                                }
+                            }
+                        },
+                        y: {
+                            title: { display: true, text: 'Wert' }
+                        }
+                    },
+                    plugins: {
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x'
+                            },
+                            zoom: {
+                                enabled: true,
+                                mode: 'x'
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            sensorChart.data.labels = filteredData[0].labels;
+            sensorChart.data.datasets = filteredData.map((group, index) => ({
+                label: group.sensor,
+                data: group.values,
+                borderColor: ['blue','red','green','orange','purple'][index % 5],
+                fill: false,
+                tension: 0.1
+            }));
+            sensorChart.update();
+        }
+    }
+    
+    // Geänderte fetch-Funktion: Hänge Zeitraum und Datenlimit als URL-Parameter an.
+    async function fetchSensorData() {
+        if (isUserInteracting) return;
+        try {
+            const timeRange = document.getElementById('timeRangeSelect').value;
+            const dataLimit = document.getElementById('dataLimitSelect').value;
+            const url = `/api/sensordata.php?timeframe=${encodeURIComponent(timeRange)}&limit=${encodeURIComponent(dataLimit)}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Netzwerkantwort war nicht ok: ' + response.statusText);
+            }
+            const data = await response.json();
+            updateSensorChart(data);
+        } catch (error) {
+            console.error('Fehler beim Abrufen oder Parsen der Sensor-Daten:', error);
+        }
+    }
+    
+    // Hinzufügen von Eventlistenern für die neuen Select-Elemente:
+    document.getElementById('timeRangeSelect').addEventListener('change', fetchSensorData);
+    document.getElementById('dataLimitSelect').addEventListener('change', fetchSensorData);
+    
+    // Initiales Laden & regelmäßiges Aktualisieren
+    fetchSensorData();
+    setInterval(fetchSensorData, 5000);
+    </script>
+</body>
+</html>
