@@ -13,8 +13,10 @@ Dieses Projekt befasst sich mit der Erfassung, Übertragung und Speicherung von 
 - [GUI-Datenvisualisierung](#gui-datenvisualisierung)
 - [Automatisierte Datenübertragung](#automatisierte-datenübertragung)
 - [Anwendungsbeispiel](#Anwendungsbeispiel)
-- [Lizenz](#lizenz)
 - [Webserver](#webserver)
+- [Lizenz](#lizenz)
+  
+  
 
 ## Überblick
 
@@ -138,9 +140,81 @@ Belegung von den Microcontroller:
 ![Schaltplan](Plaene/Schaltplan.png)
 ![Steckplan](Plaene/Steckplan.png)
 
+## Webserver
+
+Der Webserver stellt die grafische Oberfläche zur Echtzeit-Visualisierung der Sensordaten (über die Datei index.html) bereit und liefert über sensordata.php einen API-Endpunkt für den Datenabruf.
+
+
+
+Um den Webserver selber zu Installieren benötigt man nginx. Dies kann man einfach mit 
+
+```bash
+sudo apt install nginx
+```
+
+installieren. Zudem wird auch nochmal PHP benötigt. Diese installiert man mit
+
+```bash
+sudo apt install php php-fpm
+```
+
+### Falls Apache installiert
+
+Damit kein Konflikt mit Apache entsetht und auch richtig mit php läuft wird der Port auf 8001 gesetzt und fügen php hinzu. Die Config befindet sich in der Repository unter **Webserver/config**. Bitte beachtet, dass wenn es Updates von php gibt oder ähnliche Updates die Kofigurationsdatei manuell angepasst werden muss. Der Stand der Config Datei ist der 2. April. 2025. Wenn ihr kein Apache benötigt, Apache nicht installiert habt oder letzendlich Apache etnfernt, könnt ihr den Port standardmäßig auf 80 lassen (Änderung an der Repo Config nötig) solange der Port nicht von was anderes belegt wird. 
+
+Sucht einfach unter der Config nach <mark>listen</mark> und ändert die beiden Ports entweder zu 80 oder zu einem beliebigen Port deiner Wahl.
+
+
+
+### Geänderte Config übertragen
+
+Füge das an einen beliebigen Verzeichnis der Raspberry Pi hinzu und öffne das Terminal. Gebe folgendes ein 
+
+
+
+```bash
+cd /etc/nginx-sites-available/ #Navigiert zum Verzeichnis der Config
+```
+
+```bash
+sudo cp default /dein-verzeichnis #Aender dein-verzeichnis zu einem beliebigen Verzeichnis. Dient zum Backup
+
+```
+
+```bash
+sudo rm default #Entfernt die Config aus dem Verzeichnis
+
+```
+
+```bash
+sudo cp /config-verzeichnis/default /etc/nginx-sites-available/
+#Aender config-verzeichnis/default zu dem Verzeichnis, wo du die modifizierte Config gespeichert hast
+```
+
+Der Webserver muss nun gestartet werden und die den Autostart aufgenommen werden mit:
+
+```bash
+sudo systemctl start php8.2-fpm
+sudo systemctl start nginx
+
+sudo systemctl enable php8.2-fpm
+sudo systemctl enable nginx 
+```
+
+Probiere die nginx default Seite mit
+
+```
+http://<RaspberryIP>:<Port>
+```
+
+Lass den Portabschnitt leer (Ab dem Doppelpunkt) wenn der Port in der Config 80 ist
+
+
+
+Falls da was kommt ist der WebServer Konfiguriert.
+
 ## Lizenz
 
  ![LICENSE](LICENSE.md)
 
-## Webserver
-Der Webserver stellt die grafische Oberfläche zur Echtzeit-Visualisierung der Sensordaten (über die Datei index.html) bereit und liefert über sensordata.php einen API-Endpunkt für den Datenabruf.
+## 
