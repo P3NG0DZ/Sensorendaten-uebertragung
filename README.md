@@ -191,7 +191,7 @@ sudo cp /config-verzeichnis/default /etc/nginx-sites-available/
 #Aender config-verzeichnis/default zu dem Verzeichnis, wo du die modifizierte Config gespeichert hast
 ```
 
-Der Webserver muss nun gestartet werden und die den Autostart aufgenommen werden mit:
+Der Webserver muss nun gestartet werden und in den Autostart aufgenommen werden mit:
 
 ```bash
 sudo systemctl start php8.2-fpm
