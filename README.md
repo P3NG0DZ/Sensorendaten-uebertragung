@@ -145,6 +145,13 @@ Belegung von den Microcontroller:
 Der Webserver stellt die grafische Oberfläche zur Echtzeit-Visualisierung der Sensordaten (über die Datei index.html) bereit und liefert über sensordata.php einen API-Endpunkt für den Datenabruf.
 
 
+In der Repository befindet sich ein Installer, der Ihnen die Arbeit abnimmt. Im Terminal (innerhalb des Ordners des Webservers) können Sie den Installer mit folgendem Befehl ausführen:
+
+```bash
+sudo python installer.py
+```
+
+
 
 Um den Webserver selber zu Installieren benötigt man nginx. Dies kann man einfach mit 
 
