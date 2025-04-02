@@ -66,7 +66,23 @@ print(Fore.CYAN + "Übertrage die Indexdatei...")
 os.system("sudo cp " + installer_index_path + " " + index_path)
 print(Fore.GREEN + "Indexdatei erfolgreich übernommen.\n")
 
-print
+print(Fore.CYAN + "Übertrage die SensorChart-Dateien...")
+os.system("sudo cp -r " + installer_SensorChart_path + " /var/www/html/")
+print(Fore.GREEN + "SensorChart-Dateien erfolgreich übernommen.\n")
+
+print(Fore.CYAN + "Alle Dienste starten und Aktivieren...")
+os.system("sudo systemctl restart nginx")
+os.system("sudo systemctl enable nginx")
+os.system("sudo systemctl restart php8.3-fpm")
+os.system("sudo systemctl enable php8.3-fpm")
+print(Fore.GREEN + "Alle Dienste erfolgreich gestartet und aktiviert.\n")
+
+print(Fore.GREEN + "Webserver erfolgreich installiert und konfiguriert.\n")
+print(Fore.BLUE + "============================================")
+print(Fore.BLUE + "           Webserver Installer")
+print(Fore.BLUE + "============================================\n")
+
+
 
 
 
