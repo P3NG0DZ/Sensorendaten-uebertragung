@@ -5,3 +5,4 @@ pandas
 PyQt5
 argparse
 Adafruit-ADS1x15
+colorama
