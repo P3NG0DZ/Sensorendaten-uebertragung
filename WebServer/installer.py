@@ -59,29 +59,37 @@ else:
     print("Weiter...\n")
 
 print(Fore.CYAN + "Übertrage die Konfigurationsdatei...")
-os.system("sudo cp " + installer_nginxdefault_path + " " + nginx_config_path)
+os.system("sudo cp '" + installer_nginxdefault_path + "' '" + nginx_config_path + "'")
 print(Fore.GREEN + "Konfigurationsdatei erfolgreich übernommen.\n")
 
 print(Fore.CYAN + "Übertrage die Indexdatei...")
-os.system("sudo cp " + installer_index_path + " " + index_path)
+os.system("sudo cp '" + installer_index_path + "' '" + index_path + "'")
 print(Fore.GREEN + "Indexdatei erfolgreich übernommen.\n")
 
-print(Fore.CYAN + "Übertrage die SensorChart-Dateien...")
-os.system("sudo cp -r " + installer_SensorChart_path + " /var/www/html/")
-print(Fore.GREEN + "SensorChart-Dateien erfolgreich übernommen.\n")
+print(Fore.CYAN + "Übertrage die SensorChart-Dateien nach /usr/share und erstelle einen Shortcut in /var/www/html...")
+os.system("sudo cp -r '" + installer_SensorChart_path + "' '/usr/share/SensorChart'")
+os.system("sudo rm -rf '/var/www/html/SensorChart'")
+os.system("sudo ln -s '/usr/share/SensorChart' '/var/www/html/SensorChart'")
+print(Fore.GREEN + "SensorChart-Dateien erfolgreich übertragen und Shortcut erstellt.\n")
 
-print(Fore.CYAN + "Alle Dienste starten und Aktivieren...")
+print(Fore.CYAN + "Setze volle Rechte für den SensorChart-Ordner...")
+os.system("sudo chown -R www-data:www-data '/usr/share/SensorChart'")
+os.system("sudo chmod -R 777 '/usr/share/SensorChart'")
+print(Fore.GREEN + "Rechte erfolgreich gesetzt.\n")
+
+print(Fore.CYAN + "Starte den Webserver neu...")
 os.system("sudo systemctl restart nginx")
-os.system("sudo systemctl enable nginx")
-os.system("sudo systemctl restart php8.3-fpm")
-os.system("sudo systemctl enable php8.3-fpm")
-print(Fore.GREEN + "Alle Dienste erfolgreich gestartet und aktiviert.\n")
-
-print(Fore.GREEN + "Webserver erfolgreich installiert und konfiguriert.\n")
-print()
+print(Fore.GREEN + "Webserver erfolgreich neu gestartet.\n")
+print(Fore.CYAN + "Überprüfe die Konfiguration...")
+os.system("sudo nginx -t")
+print(Fore.GREEN + "Konfiguration erfolgreich überprüft.\n")
+print(Fore.GREEN + "Installation abgeschlossen.\n")
 print(Fore.BLUE + "============================================")
 print(Fore.BLUE + "           Webserver Installer")
 print(Fore.BLUE + "============================================\n")
+print(Fore.GREEN + "Der Webserver ist jetzt bereit.\n")
+print(Fore.GREEN + "Sie können jetzt auf die IP-Adresse des Raspberry Pi zugreifen.")
+
 
 
 

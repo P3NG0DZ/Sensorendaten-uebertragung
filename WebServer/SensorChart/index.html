@@ -179,7 +179,8 @@
         try {
             const timeRange = document.getElementById('timeRangeSelect').value;
             const dataLimit = document.getElementById('dataLimitSelect').value;
-            const url = `/api/sensordata.php?timeframe=${encodeURIComponent(timeRange)}&limit=${encodeURIComponent(dataLimit)}`;
+            // Use a relative URL so the API is correctly found within the current folder
+            const url = `./api/sensordata.php?timeframe=${encodeURIComponent(timeRange)}&limit=${encodeURIComponent(dataLimit)}`;
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Netzwerkantwort war nicht ok: ' + response.statusText);

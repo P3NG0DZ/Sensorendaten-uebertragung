@@ -85,8 +85,13 @@ server {
 	}
 
 	# SensorChart API: Leitet PHP-Anfragen an den PHP-FPM weiter
-	location ~ ^/SensorChart/api/.*\.php$ {
+	location /SensorChart/api/ {
+		alias /usr/share/SensorChart/api/;
+		index sensordata.php;
+		try_files $uri $uri/ =404;
+		fastcgi_split_path_info ^(.+\.php)(/.*)$;
 		include snippets/fastcgi-php.conf;
+		fastcgi_param SCRIPT_FILENAME /usr/share/SensorChart/api/$1;
 		fastcgi_pass unix:/run/php/php8.2-fpm.sock;
 	}
 	
