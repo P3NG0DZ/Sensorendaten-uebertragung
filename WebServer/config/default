@@ -77,6 +77,19 @@ server {
 		rewrite ^/* /phpmyadmin last;
 	}
 
+	# SensorChart Ordner
+	# SensorChart Ordner: Liefert die index.html als Standardseite
+	location /SensorChart/ {
+		index index.html;
+		try_files $uri $uri/ /SensorChart/index.html;
+	}
+
+	# SensorChart API: Leitet PHP-Anfragen an den PHP-FPM weiter
+	location ~ ^/SensorChart/api/.*\.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+	}
+	
 	location ~ \.php$ {
 		include snippets/fastcgi-php.conf;
 		fastcgi_pass unix:/run/php/php8.2-fpm.sock;

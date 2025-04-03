@@ -78,6 +78,7 @@ os.system("sudo systemctl enable php8.3-fpm")
 print(Fore.GREEN + "Alle Dienste erfolgreich gestartet und aktiviert.\n")
 
 print(Fore.GREEN + "Webserver erfolgreich installiert und konfiguriert.\n")
+print()
 print(Fore.BLUE + "============================================")
 print(Fore.BLUE + "           Webserver Installer")
 print(Fore.BLUE + "============================================\n")
